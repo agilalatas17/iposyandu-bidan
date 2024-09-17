@@ -29,7 +29,11 @@ const navItems = [
 function SideMenu() {
   return (
     <>
-      <Menu items={navItems} defaultSelectedKeys={['1']} />
+      <Menu
+        items={navItems}
+        defaultSelectedKeys={['1']}
+        style={{ maxHeight: '100vh' }}
+      />
     </>
   );
 }
