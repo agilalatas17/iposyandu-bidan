@@ -5,8 +5,8 @@ import { IBU_HAMIL_COLUMN } from '@/components/Tables/ibuHamilColumn';
 import { fetchIbuHamil } from '@/libs/api/ibuHamil';
 
 export default async function Page() {
-  const dataIbuHamil = await fetchIbuHamil();
-
+  const dataIbuHamil = await fetchIbuHamil.getData();
+  console.log(dataIbuHamil.data);
   return (
     <>
       <Row className="py-7">
