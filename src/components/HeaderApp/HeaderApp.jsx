@@ -2,10 +2,11 @@
 import { Header } from 'antd/es/layout/layout';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Dropdown, Space, Flex } from 'antd';
+import Link from 'next/link';
 
 const items = [
   {
-    label: <a href="#">Logout</a>,
+    label: <Link href="#">Logout</Link>,
     icon: <LogoutOutlined />,
     key: '0',
   },

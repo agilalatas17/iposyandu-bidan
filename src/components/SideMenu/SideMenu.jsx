@@ -2,6 +2,7 @@
 
 import { Menu } from 'antd';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navItems = [
   {

@@ -1,4 +1,5 @@
 import { ConfigProvider } from 'antd';
+import { themeConfig } from '@/config/themeConfig';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Poppins } from 'next/font/google';
 import './globals.css';
@@ -23,15 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="id">
       <body className={`${poppins.className} antialiased`}>
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#00BFFF',
-              fontFamily: 'inherit',
-              fontSize: 16,
-            },
-          }}
-        >
+        <ConfigProvider theme={themeConfig}>
           <AntdRegistry>
             <Layout
               style={{
