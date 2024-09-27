@@ -1,5 +1,6 @@
-import { ConfigProvider } from 'antd';
-import { themeConfig } from '@/config/themeConfig';
+import { ConfigProvider, App } from 'antd';
+import { themeConfig } from '@/libs/themes/themeConfig';
+import { messageConfig } from '@/libs/themes/messageConfig';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Poppins } from 'next/font/google';
 import './globals.css';
@@ -25,26 +26,28 @@ export default function RootLayout({ children }) {
     <html lang="id">
       <body className={`${poppins.className} antialiased`}>
         <ConfigProvider theme={themeConfig}>
-          <AntdRegistry>
-            <Layout
-              style={{
-                minHeight: '100vh',
-              }}
-            >
-              <Sider theme="light" width={280}>
-                <div className="pt-4 pb-6 text-center text-xl font-extrabold text-black">
-                  iPosyandu Bidan
-                </div>
-                <SideMenu />
-              </Sider>
-              <Layout>
-                <HeaderApp />
-                <Content className="py-4 px-6" style={{ minHeight: 380 }}>
-                  <div>{children}</div>
-                </Content>
+          <App message={messageConfig}>
+            <AntdRegistry>
+              <Layout
+                style={{
+                  minHeight: '100vh',
+                }}
+              >
+                <Sider theme="light" width={280}>
+                  <div className="pt-4 pb-6 text-center text-xl font-extrabold text-black">
+                    iPosyandu Bidan
+                  </div>
+                  <SideMenu />
+                </Sider>
+                <Layout>
+                  <HeaderApp />
+                  <Content className="py-4 px-6" style={{ minHeight: 380 }}>
+                    <div>{children}</div>
+                  </Content>
+                </Layout>
               </Layout>
-            </Layout>
-          </AntdRegistry>
+            </AntdRegistry>
+          </App>
         </ConfigProvider>
       </body>
     </html>

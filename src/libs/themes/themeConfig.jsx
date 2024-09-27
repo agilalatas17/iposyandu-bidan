@@ -1,5 +1,3 @@
-import { Card } from 'antd';
-
 export const themeConfig = {
   token: {
     colorPrimary: '#00BFFF',
