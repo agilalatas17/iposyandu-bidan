@@ -1,10 +1,11 @@
 import { Card, Row, Space, Col, Flex, Button } from 'antd';
 import Text from 'antd/es/typography/Text';
 import Link from 'next/link';
-import { fetchIbuHamil } from '@/libs/api/ibuHamil';
+import dayjs from 'dayjs';
+import { getIbuHamil } from '@/libs/api/ibuHamil';
 
 export default async function Page({ params: { id } }) {
-  const data = await fetchIbuHamil(id);
+  const data = await getIbuHamil(id);
 
   return (
     <>
@@ -20,7 +21,9 @@ export default async function Page({ params: { id } }) {
                 <Text type="secondary" className="font-semibold !text-sm">
                   Tanggal Daftar
                 </Text>
-                <Text className="!text-base">{data.tanggalDaftar}</Text>
+                <Text className="!text-base">
+                  {dayjs(data.tanggalDaftar).format('DD MMMM YYYY')}
+                </Text>
               </Space>
             </Col>
 
@@ -47,7 +50,9 @@ export default async function Page({ params: { id } }) {
                 <Text type="secondary" className="font-semibold !text-sm">
                   Hari Pertama Haid Terakhir
                 </Text>
-                <Text className="!text-base">{data.hpht}</Text>
+                <Text className="!text-base">
+                  {dayjs(data.hpht).format('DD MMMM YYYY')}
+                </Text>
               </Space>
             </Col>
 
@@ -57,7 +62,7 @@ export default async function Page({ params: { id } }) {
                   Taksiran Persalinan
                 </Text>
                 <Text className="!text-base">
-                  {data.taksiranPersalinanDate}
+                  {dayjs(data.taksiranPersalinanDate).format('DD MMMM YYYY')}
                 </Text>
               </Space>
             </Col>
@@ -76,7 +81,9 @@ export default async function Page({ params: { id } }) {
                 <Text type="secondary" className="font-semibold !text-sm">
                   Tanggal Lahir
                 </Text>
-                <Text className="!text-base">{data.tanggalLahir}</Text>
+                <Text className="!text-base">
+                  {dayjs(data.tanggalLahir).format('DD MMMM YYYY')}
+                </Text>
               </Space>
             </Col>
 

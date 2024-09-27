@@ -1,11 +1,28 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Title from 'antd/es/typography/Title';
 import { Divider, Table, Row, Button } from 'antd';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { IBU_HAMIL_COLUMN } from '@/components/Tables/ibuHamilColumn';
-import { fetchIbuHamil } from '@/libs/api/ibuHamil';
+import { getIbuHamil } from '@/libs/api/ibuHamil';
 
-export default async function Page() {
-  const dataIbuHamil = await fetchIbuHamil();
+export default function Page() {
+  const [rawData, setRawData] = useState([]);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getTableData = async () => {
+      const ibuHamil = await getIbuHamil();
+      if (ibuHamil) {
+        setData(ibuHamil);
+      }
+    };
+
+    getTableData();
+  }, []);
+
+  console.log('GET DATA IBU HAMIL', data);
 
   return (
     <>
@@ -25,7 +42,7 @@ export default async function Page() {
       </Row>
       <Table
         columns={IBU_HAMIL_COLUMN}
-        dataSource={dataIbuHamil}
+        dataSource={data}
         bordered
         align="center"
       />
