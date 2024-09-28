@@ -4,7 +4,7 @@ import Title from 'antd/es/typography/Title';
 export default function Dashboard() {
   return (
     <>
-      <div className="py-7">
+      <div className="pb-7 pt-0">
         <Title level={3}>Dashboard</Title>
         <Divider className="border-2 !m-0" />
       </div>

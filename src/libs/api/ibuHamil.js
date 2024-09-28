@@ -1,5 +1,3 @@
-import { axiosInstance } from '../axios/axios';
-
 const baseUrl = process.env.NEXT_PUBLIC_URL_API;
 
 export const getIbuHamil = async (id) => {
@@ -28,9 +26,9 @@ export const createIbuHamil = async (body) => {
   }
 };
 
-export const updateIbuHamil = async (body) => {
+export const updateIbuHamil = async (id, body) => {
   try {
-    const res = await fetch(`${baseUrl}/ibu-hamil`, {
+    const res = await fetch(`${baseUrl}/ibu-hamil/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
