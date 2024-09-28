@@ -1,5 +1,20 @@
-import { Row, Col, Card, Flex, Divider } from 'antd';
+import {
+  Row,
+  Col,
+  Card,
+  Flex,
+  Divider,
+  Space,
+  Dropdown,
+  Popconfirm,
+  Tooltip,
+} from 'antd';
 import Title from 'antd/es/typography/Title';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 export default function Dashboard() {
   return (
