@@ -6,6 +6,7 @@ import { Divider, Table, Row, Button } from 'antd';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { IBU_HAMIL_COLUMN } from '@/components/Tables/ibuHamilColumn';
 import { getIbuHamil } from '@/libs/api/ibuHamil';
+import dayjs from 'dayjs';
 
 export default function Page() {
   const [rawData, setRawData] = useState([]);
@@ -15,18 +16,21 @@ export default function Page() {
     const getTableData = async () => {
       const ibuHamil = await getIbuHamil();
       if (ibuHamil) {
-        setData(ibuHamil);
+        const formatData = ibuHamil.map((item) => ({
+          ...item,
+          tanggalDaftar: dayjs(item.tanggalDaftar).format('DD MMM YYYY'), // Hanya format tanggalDaftar
+        }));
+
+        setData(formatData);
       }
     };
 
     getTableData();
   }, []);
 
-  console.log('GET DATA IBU HAMIL', data);
-
   return (
     <>
-      <Row className="py-7">
+      <Row className="pb-7 pt-0">
         <Title level={3}>Ibu Hamil</Title>
         <Divider className="border-2 !m-0" />
       </Row>

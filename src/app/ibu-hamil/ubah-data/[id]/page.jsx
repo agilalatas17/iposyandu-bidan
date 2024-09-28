@@ -15,32 +15,66 @@ import {
   message,
 } from 'antd';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
-import { createIbuHamil } from '@/libs/api/ibuHamil';
+import { useParams, useRouter } from 'next/navigation';
+import { updateIbuHamil, getIbuHamil } from '@/libs/api/ibuHamil';
 const { Option } = Select;
 
 export default function Page() {
-  const [formTambahIbuHamil] = Form.useForm();
+  const [formUbahIbuHamil] = Form.useForm();
+  const { id } = useParams();
   const router = useRouter();
 
   const onHphtChange = (date) => {
     if (date) {
       const taksiranPersalinan = dayjs(date).add(280, 'days');
-      formTambahIbuHamil.setFieldsValue({
+      formUbahIbuHamil.setFieldsValue({
         taksiranPersalinanDate: taksiranPersalinan,
       });
     }
   };
 
-  const onCreateData = async (values) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const getIbuHamilData = await getIbuHamil(id);
+
+        if (getIbuHamilData) {
+          console.log('IBU HAMIL SEBELUM SET FIELD VALUES', getIbuHamilData);
+          formUbahIbuHamil.setFieldsValue({
+            ...getIbuHamilData,
+            tanggalDaftar: dayjs(getIbuHamilData.tanggalDaftar),
+            hpht: dayjs(getIbuHamilData.hpht),
+            taksiranPersalinanDate: dayjs(
+              getIbuHamilData.taksiranPersalinanDate
+            ),
+            tanggalLahir: dayjs(getIbuHamilData.tanggalLahir),
+          });
+        }
+      } catch (err) {
+        message.open({
+          type: 'error',
+          message: 'Gagal memuat data' + err.message,
+        });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const onUpdateData = async (values) => {
+    console.log('ON UPDATE DATA', values);
     try {
       const data = {
-        tanggalDaftar: values.tanggalDaftar,
+        tanggalDaftar: values.tanggalDaftar
+          ? dayjs(values.tanggalDaftar).format('YYYY-MM-DD')
+          : null,
         nik: values.nik,
         nama: values.nama,
-        hpht: values.hpht,
+        hpht: values.hpht ? dayjs(values.hpht).format('YYYY-MM-DD') : null,
         tempatLahir: values.tempatLahir,
-        tanggalLahir: values.tanggalLahir,
+        tanggalLahir: values.tanggalLahir
+          ? dayjs(values.tanggalLahir).format('YYYY-MM-DD')
+          : null,
         pendidikanTerakhir: values.pendidikanTerakhir,
         pekerjaan: values.pekerjaan,
         alamat: values.alamat,
@@ -52,13 +86,12 @@ export default function Page() {
         faskesRujukan: values.faskesRujukan,
       };
 
-      await createIbuHamil(data);
-
-      message.success('Data ibu Hamil berhasil dibuat!');
-      formTambahIbuHamil.resetFields();
+      await updateIbuHamil(id, data);
+      message.success('Berhasil mengubah data');
+      formUbahIbuHamil.resetFields();
       router.push('/ibu-hamil');
     } catch (error) {
-      message.error('Gagal membuat data');
+      message.error('Gagal mengubah data');
     }
   };
 
@@ -66,14 +99,14 @@ export default function Page() {
     <>
       <Row>
         <Card
-          title="Tambah Data Ibu Hamil"
+          title="Ubah Data Ibu Hamil"
           className=" shadow-primary"
           style={{ width: '100%' }}
         >
           <Form
             name="form-ibu-hamil"
-            form={formTambahIbuHamil}
-            onFinish={onCreateData}
+            form={formUbahIbuHamil}
+            onFinish={onUpdateData}
             layout="vertical"
           >
             <Flex justify="space-between" wrap gap={24}>
@@ -83,7 +116,6 @@ export default function Page() {
                   name="tanggalDaftar"
                   rules={[
                     {
-                      required: true,
                       message: 'Masukkan tanggal daftar',
                     },
                   ]}
@@ -103,7 +135,6 @@ export default function Page() {
                   name="nik"
                   rules={[
                     {
-                      required: true,
                       message: 'Masukkan NIK',
                     },
                   ]}
@@ -118,7 +149,6 @@ export default function Page() {
                   name="nama"
                   rules={[
                     {
-                      required: true,
                       message: 'Masukkan nama',
                     },
                   ]}
@@ -136,7 +166,6 @@ export default function Page() {
                     placeholder="Pilih tanggal"
                     rules={[
                       {
-                        required: true,
                         message: 'Masukkan hari pertama haid terakhir',
                       },
                     ]}
@@ -163,7 +192,6 @@ export default function Page() {
                   name="tempatLahir"
                   rules={[
                     {
-                      required: true,
                       message: 'Masukkan tempat lahir',
                     },
                   ]}
@@ -180,7 +208,6 @@ export default function Page() {
                     placeholder="Pilih tanggal"
                     rules={[
                       {
-                        required: true,
                         message: 'Masukkan tanggal lahir',
                       },
                     ]}
@@ -217,7 +244,6 @@ export default function Page() {
                   name="alamat"
                   rules={[
                     {
-                      required: true,
                       message: 'Masukkan alamat',
                     },
                   ]}
@@ -232,7 +258,6 @@ export default function Page() {
                   name="telepon"
                   rules={[
                     {
-                      required: true,
                       message: 'Masukkan nomor telepon',
                     },
                   ]}
@@ -258,7 +283,6 @@ export default function Page() {
                   name="pembiayaan"
                   rules={[
                     {
-                      required: true,
                       message: 'Masukkan pembiayaan',
                     },
                   ]}
@@ -273,7 +297,6 @@ export default function Page() {
                   name="noJkn"
                   rules={[
                     {
-                      required: true,
                       message: 'Masukkan nomor JKN',
                     },
                   ]}

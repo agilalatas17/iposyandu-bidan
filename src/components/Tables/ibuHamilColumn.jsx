@@ -7,10 +7,10 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Link from 'next/link';
 
-const dropdownItems = [
+const dropdownItems = (id) => [
   {
     key: 'edit',
-    label: <Link href="#">Ubah</Link>,
+    label: <Link href={`/ibu-hamil/ubah-data/${id}`}>Ubah</Link>,
     icon: <EditOutlinedIcon />,
   },
   {
@@ -63,7 +63,7 @@ export const IBU_HAMIL_COLUMN = [
 
         <Tooltip title="Lainnya" mouseEnterDelay={0.3}>
           <Dropdown
-            menu={{ items: dropdownItems }}
+            menu={{ items: dropdownItems(record.id) }}
             trigger={['click']}
             arrow
             className="p-[6px] bg-primary rounded hover:bg-primary/60"
