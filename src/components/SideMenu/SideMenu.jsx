@@ -1,40 +1,42 @@
 'use client';
 
+import { useState } from 'react';
 import { Menu } from 'antd';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const navItems = [
   {
-    key: '1',
+    key: 'dashboard',
     label: <Link href="/">Dashboard</Link>,
   },
   {
-    key: '2',
+    key: 'ibu-hamil',
     label: <Link href="/ibu-hamil">Ibu Hamil</Link>,
   },
   {
-    key: '3',
+    key: 'bersalin',
     label: <Link href="/ibu-bersalin">Ibu Bersalin</Link>,
   },
   {
-    key: '4',
+    key: 'nifas',
     label: <Link href="/ibu-nifas">Ibu Nifas</Link>,
   },
   {
-    key: '5',
+    key: 'kb',
     label: <Link href="/keluarga-berencana">Keluarga Berencana</Link>,
   },
 ];
 
 function SideMenu() {
+  const pathname = usePathname();
+  const [current, setCurrent] = useState();
+
+  console.log('path', current);
+  console.log('pathname', pathname);
   return (
     <>
-      <Menu
-        items={navItems}
-        defaultSelectedKeys={['1']}
-        style={{ maxHeight: '100vh' }}
-      />
+      <Menu items={navItems} />
     </>
   );
 }

@@ -47,6 +47,7 @@ export default function Page() {
         <Popconfirm
           title="Ingin menghapus data?"
           onConfirm={() => handleDelete(id)}
+          placement="left"
           okText="Ya"
           cancelText="Batal"
           arrow={false}
@@ -120,25 +121,29 @@ export default function Page() {
     },
   ];
 
+  const getTableData = async () => {
+    const res = await getIbuHamil();
+    if (res) {
+      const ibuHamil = res.map((item) => ({
+        ...item,
+        tanggalDaftar: dayjs(item.tanggalDaftar).format('DD MMM YYYY'),
+      }));
+
+      setData(ibuHamil);
+    }
+  };
+
   useEffect(() => {
-    const getTableData = async () => {
-      const ibuHamil = await getIbuHamil();
-      if (ibuHamil) {
-        const formatData = ibuHamil.map((item) => ({
-          ...item,
-          tanggalDaftar: dayjs(item.tanggalDaftar).format('DD MMM YYYY'),
-        }));
-
-        setData(formatData);
-      }
-    };
-
     getTableData();
-  }, [data]);
+  }, []);
 
   const handleDelete = async (id) => {
     try {
       await deleteIbuHamil(id);
+
+      const data = getTableData();
+
+      setData(data.data);
 
       message.success('Data berhasil dihapus!');
     } catch (err) {

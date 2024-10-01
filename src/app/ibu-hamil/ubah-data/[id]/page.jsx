@@ -111,15 +111,7 @@ export default function Page() {
           >
             <Flex justify="space-between" wrap gap={24}>
               <Col span={5}>
-                <Form.Item
-                  label="Tanggal Daftar"
-                  name="tanggalDaftar"
-                  rules={[
-                    {
-                      message: 'Masukkan tanggal daftar',
-                    },
-                  ]}
-                >
+                <Form.Item label="Tanggal Daftar" name="tanggalDaftar">
                   <DatePicker
                     className="!w-full"
                     format="DD MMM YYYY"

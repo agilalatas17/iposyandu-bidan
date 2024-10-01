@@ -10,13 +10,11 @@ import {
   Tooltip,
 } from 'antd';
 import Title from 'antd/es/typography/Title';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { jumlahIbuHamil } from '@/libs/api/ibuHamil';
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const jumlahIbuHamilData = await jumlahIbuHamil();
+  console.log('TOTAL IBU HAMIL', jumlahIbuHamilData);
   return (
     <>
       <div className="pb-7 pt-0">
@@ -30,7 +28,9 @@ export default function Dashboard() {
             <Title level={5} type="primary">
               Ibu Hamil
             </Title>
-            <p className="font-medium text-lg">86</p>
+            <p className="font-medium text-lg">
+              {jumlahIbuHamilData.jumlahIbuHamil}
+            </p>
           </Flex>
         </Card>
 

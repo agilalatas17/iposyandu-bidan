@@ -32,6 +32,7 @@ export default function RootLayout({ children }) {
                 style={{
                   minHeight: '100vh',
                 }}
+                hasSider
               >
                 <Sider theme="light" width={280}>
                   <div className="pt-4 pb-6 text-center text-xl font-extrabold text-black">
