@@ -13,6 +13,7 @@ export const getIbuHamil = async (id) => {
   const resource = id
     ? `${baseUrl}/api/ibu-hamil/${id}`
     : `${baseUrl}/api/ibu-hamil`;
+
   const res = await fetch(resource);
   const ibuHamil = await res.json();
 
@@ -21,7 +22,7 @@ export const getIbuHamil = async (id) => {
 
 export const createIbuHamil = async (body) => {
   try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil`, {
+    const res = await fetch(`${baseUrl}/api/ibu-hamil/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
