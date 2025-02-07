@@ -1,6 +1,6 @@
 export const themeConfig = {
   token: {
-    colorPrimary: '#00BFFF',
+    colorPrimary: '#155DFC',
     fontFamily: 'Poppins',
     fontSize: 14,
   },
@@ -8,6 +8,10 @@ export const themeConfig = {
     Card: {
       headerFontSize: 24,
       headerHeight: 72,
+    },
+
+    Table: {
+      headerBg: '#E1E5EC',
     },
   },
 };
