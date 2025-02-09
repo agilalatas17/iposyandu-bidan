@@ -96,6 +96,17 @@ export default async function KunjunganDetailPage({ params: { kunjunganId } }) {
                 </Text>
               </Space>
             </Col>
+
+            <Col span={6}>
+              <Space direction="vertical" className="!gap-1.5">
+                <Text type="secondary" className="font-semibold !text-sm">
+                  Keluhan
+                </Text>
+                <Text className="!text-base">
+                  {data.keluhan !== '' ? data.keluhan : '-'}
+                </Text>
+              </Space>
+            </Col>
           </Row>
 
           <Row gutter={[16, 0]} className="mt-12">
