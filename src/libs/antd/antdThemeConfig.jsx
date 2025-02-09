@@ -1,4 +1,4 @@
-export const themeConfig = {
+export const antdThemeConfig = {
   token: {
     colorPrimary: '#155DFC',
     fontFamily: 'Poppins',
