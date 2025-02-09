@@ -13,16 +13,26 @@ import {
   DatePicker,
   Select,
   message,
+  Divider,
 } from 'antd';
-import dayjs from 'dayjs';
+import Title from 'antd/es/typography/Title';
 import { useParams, useRouter } from 'next/navigation';
-import { updateIbuHamil, getIbuHamil } from '@/libs/api/ibuHamil';
+import { updateIbuHamil, getIbuHamilById } from '@/libs/api/ibuHamil';
+
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat);
+dayjs.locale('id');
+
 const { Option } = Select;
 
 export default function Page() {
   const [formUbahIbuHamil] = Form.useForm();
   const { id } = useParams();
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const onHphtChange = (date) => {
     if (date) {
@@ -36,10 +46,9 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const getIbuHamilData = await getIbuHamil(id);
+        const getIbuHamilData = await getIbuHamilById(id);
 
         if (getIbuHamilData) {
-          console.log('IBU HAMIL SEBELUM SET FIELD VALUES', getIbuHamilData);
           formUbahIbuHamil.setFieldsValue({
             ...getIbuHamilData,
             tanggalDaftar: dayjs(getIbuHamilData.tanggalDaftar),
@@ -62,18 +71,16 @@ export default function Page() {
   }, []);
 
   const onUpdateData = async (values) => {
-    console.log('ON UPDATE DATA', values);
+    setIsLoading(true);
     try {
       const data = {
-        tanggalDaftar: values.tanggalDaftar
-          ? dayjs(values.tanggalDaftar).format('YYYY-MM-DD')
-          : null,
+        tanggalDaftar: values.tanggalDaftar ? values.tanggalDaftar : null,
         nik: values.nik,
         nama: values.nama,
-        hpht: values.hpht ? dayjs(values.hpht).format('YYYY-MM-DD') : null,
+        hpht: values.hpht ? dayjs(values.hpht).format('DD MMMM YYYY') : null,
         tempatLahir: values.tempatLahir,
         tanggalLahir: values.tanggalLahir
-          ? dayjs(values.tanggalLahir).format('YYYY-MM-DD')
+          ? dayjs(values.tanggalLahir).format('YYYY-MMMM-DD')
           : null,
         pendidikanTerakhir: values.pendidikanTerakhir,
         pekerjaan: values.pekerjaan,
@@ -97,12 +104,12 @@ export default function Page() {
 
   return (
     <>
+      <Row className="pb-7 pt-0">
+        <Title level={2}>Ubah Data Ibu Hamil</Title>
+        <Divider className="border-2 !m-0" />
+      </Row>
       <Row>
-        <Card
-          title="Ubah Data Ibu Hamil"
-          className=" shadow-primary"
-          style={{ width: '100%' }}
-        >
+        <Card className=" shadow-primary" style={{ width: '100%' }}>
           <Form
             name="form-ibu-hamil"
             form={formUbahIbuHamil}
@@ -114,9 +121,8 @@ export default function Page() {
                 <Form.Item label="Tanggal Daftar" name="tanggalDaftar">
                   <DatePicker
                     className="!w-full"
-                    format="DD MMM YYYY"
-                    value={dayjs('23 Sep 2020')}
                     placeholder="Pilih Tanggal"
+                    format="DD MMMM YYYY"
                   />
                 </Form.Item>
               </Col>
@@ -153,9 +159,9 @@ export default function Page() {
                 <Form.Item label="Hari Pertama Haid Terakhir" name="hpht">
                   <DatePicker
                     className="!w-full"
-                    format="DD MMM YYYY"
                     onChange={onHphtChange}
-                    placeholder="Pilih tanggal"
+                    placeholder=""
+                    format="DD MMMM YYYY"
                     rules={[
                       {
                         message: 'Masukkan hari pertama haid terakhir',
@@ -172,7 +178,7 @@ export default function Page() {
                 >
                   <DatePicker
                     className="!w-full"
-                    format="DD MMM YYYY"
+                    format="DD MMMM YYYY"
                     disabled
                   />
                 </Form.Item>
@@ -196,8 +202,8 @@ export default function Page() {
                 <Form.Item label="Tanggal Lahir" name="tanggalLahir">
                   <DatePicker
                     className="!w-full"
-                    format="DD MMM YYYY"
                     placeholder="Pilih tanggal"
+                    format="DD MMMM YYYY"
                     rules={[
                       {
                         message: 'Masukkan tanggal lahir',

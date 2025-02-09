@@ -1,20 +1,41 @@
-import { Card, Row, Space, Col, Flex, Button } from 'antd';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Card, Row, Space, Col, Divider } from 'antd';
+import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import Link from 'next/link';
-import dayjs from 'dayjs';
-import { getIbuHamil } from '@/libs/api/ibuHamil';
+import { useParams } from 'next/navigation';
+import { getIbuHamilById } from '@/libs/api/ibuHamil';
 
-export default async function Page({ params: { id } }) {
-  const data = await getIbuHamil(id);
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat);
+dayjs.locale('id');
+
+export default function Page() {
+  const { id } = useParams();
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getIbuHamilById(id);
+      setData(response);
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <>
+      <Row className="pb-7 pt-0">
+        <Title level={2}>Detail Data Ibu Hamil</Title>
+        <Divider className="border-2 !m-0" />
+      </Row>
+
       <Row>
-        <Card
-          title="Informasi Ibu Hamil"
-          className=" shadow-primary"
-          style={{ width: '100%' }}
-        >
+        <Card className=" shadow-primary" style={{ width: '100%' }}>
           <Row gutter={[16, 48]} className="py-5">
             <Col span={6}>
               <Space direction="vertical" className="!gap-1.5">

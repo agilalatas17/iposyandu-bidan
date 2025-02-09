@@ -20,8 +20,14 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+
 import dayjs from 'dayjs';
-import { getIbuHamil, deleteIbuHamil } from '@/libs/api/ibuHamil';
+import 'dayjs/locale/id';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat);
+dayjs.locale('id');
+
+import { getAllIbuHamil, deleteIbuHamil } from '@/libs/api/ibuHamil';
 
 export default function Page() {
   const [data, setData] = useState([]);
@@ -34,11 +40,7 @@ export default function Page() {
     },
     {
       key: 'kunjungan',
-      label: (
-        <Popconfirm>
-          <Link href="#">Kunjungan</Link>
-        </Popconfirm>
-      ),
+      label: <Link href={`/ibu-hamil/${id}/kunjungan`}>Kunjungan</Link>,
       icon: <EventAvailableIcon />,
     },
     {
@@ -87,9 +89,9 @@ export default function Page() {
       width: 80,
       render: (_, record) => (
         <Space size={24}>
-          <Tooltip title="Detail" mouseEnterDelay={0.3}>
+          <Tooltip title="Detail">
             <Link
-              className="p-[6px] hover:bg-primary/60 bg-primary rounded"
+              className="px-2 py-3 hover:bg-blue-600/60 bg-blue-600 rounded"
               href={`/ibu-hamil/${record.id}`}
               key={record.id}
             >
@@ -97,21 +99,17 @@ export default function Page() {
             </Link>
           </Tooltip>
 
-          <Tooltip
-            title="Lainnya"
-            mouseEnterDelay={0.3}
-            destroyTooltipOnHide={true}
-          >
+          <Tooltip title="Lainnya" destroyTooltipOnHide={true}>
             <Dropdown
-              className="p-[6px] bg-primary rounded hover:bg-primary/60"
-              placement="top"
+              className="px-1.5 py-3 bg-blue-600 rounded hover:bg-blue-600/60"
+              placement="bottomLeft"
               trigger={['click']}
               menu={{ items: dropdownItems(record.id) }}
               arrow
             >
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                  <MoreHorizIcon color="primary" className="!text-white" />
+                  <MoreHorizIcon className="!text-white" />
                 </Space>
               </a>
             </Dropdown>
@@ -122,7 +120,7 @@ export default function Page() {
   ];
 
   const getTableData = async () => {
-    const res = await getIbuHamil();
+    const res = await getAllIbuHamil();
     if (res) {
       const ibuHamil = res.map((item) => ({
         ...item,
@@ -154,7 +152,7 @@ export default function Page() {
   return (
     <>
       <Row className="pb-7 pt-0">
-        <Title level={3}>Ibu Hamil</Title>
+        <Title level={2}>Ibu Hamil</Title>
         <Divider className="border-2 !m-0" />
       </Row>
 
@@ -164,7 +162,7 @@ export default function Page() {
           icon={<AddOutlinedIcon />}
           href="/ibu-hamil/tambah-data"
         >
-          Tambah Ibu Hamil
+          Ibu Hamil
         </Button>
       </Row>
       <Table columns={IBU_HAMIL_COLUMN} dataSource={data} bordered />

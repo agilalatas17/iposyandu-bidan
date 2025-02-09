@@ -12,11 +12,19 @@ import {
   Input,
   DatePicker,
   Select,
+  Divider,
   message,
 } from 'antd';
-import dayjs from 'dayjs';
+import Title from 'antd/es/typography/Title';
 import { useRouter } from 'next/navigation';
 import { createIbuHamil } from '@/libs/api/ibuHamil';
+
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+dayjs.extend(localizedFormat);
+dayjs.locale('id');
+
 const { Option } = Select;
 
 export default function Page() {
@@ -52,24 +60,34 @@ export default function Page() {
         faskesRujukan: values.faskesRujukan,
       };
 
-      await createIbuHamil(data);
+      const response = await createIbuHamil(data);
+
+      if (response.status === 409) {
+        return message.open({
+          type: 'error',
+          content: 'NIK sudah Tersedia',
+        });
+      }
 
       message.success('Data ibu Hamil berhasil dibuat!');
       formTambahIbuHamil.resetFields();
       router.push('/ibu-hamil');
-    } catch (error) {
-      message.error('Gagal membuat data');
+    } catch (err) {
+      message.open({
+        type: 'error',
+        content: 'Gagal menambahkan data!',
+      });
     }
   };
 
   return (
     <>
+      <Row className="pb-7 pt-0">
+        <Title level={2}>Tambah Data Ibu Hamil</Title>
+        <Divider className="border-2 !m-0" />
+      </Row>
       <Row>
-        <Card
-          title="Tambah Data Ibu Hamil"
-          className=" shadow-primary"
-          style={{ width: '100%' }}
-        >
+        <Card className=" shadow-primary" style={{ width: '100%' }}>
           <Form
             name="form-ibu-hamil"
             form={formTambahIbuHamil}
@@ -90,9 +108,8 @@ export default function Page() {
                 >
                   <DatePicker
                     className="!w-full"
-                    format="DD MMM YYYY"
-                    value={dayjs('23 Sep 2020')}
-                    placeholder="Pilih Tanggal"
+                    format="DD MMMM YYYY"
+                    placeholder=""
                   />
                 </Form.Item>
               </Col>
@@ -131,9 +148,9 @@ export default function Page() {
                 <Form.Item label="Hari Pertama Haid Terakhir" name="hpht">
                   <DatePicker
                     className="!w-full"
-                    format="DD MMM YYYY"
+                    format="DD MMMM YYYY"
                     onChange={onHphtChange}
-                    placeholder="Pilih tanggal"
+                    placeholder=""
                     rules={[
                       {
                         required: true,
@@ -151,7 +168,8 @@ export default function Page() {
                 >
                   <DatePicker
                     className="!w-full"
-                    format="DD MMM YYYY"
+                    format="DD MMMM YYYY"
+                    placeholder=""
                     disabled
                   />
                 </Form.Item>
@@ -173,17 +191,20 @@ export default function Page() {
               </Col>
 
               <Col span={5}>
-                <Form.Item label="Tanggal Lahir" name="tanggalLahir">
+                <Form.Item
+                  label="Tanggal Lahir"
+                  name="tanggalLahir"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Masukkan tanggal Lahir',
+                    },
+                  ]}
+                >
                   <DatePicker
                     className="!w-full"
-                    format="DD MMM YYYY"
-                    placeholder="Pilih tanggal"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Masukkan tanggal lahir',
-                      },
-                    ]}
+                    format="DD MMMM YYYY"
+                    placeholder=""
                   />
                 </Form.Item>
               </Col>
@@ -193,7 +214,7 @@ export default function Page() {
                   label="Pendidikan Terakhir"
                   name="pendidikanTerakhir"
                 >
-                  <Select placeholder="Pilih pendidikan terakhir">
+                  <Select placeholder="">
                     <Option value="SD">SD</Option>
                     <Option value="SMP">SMP</Option>
                     <Option value="SMA">SMA</Option>
@@ -243,7 +264,7 @@ export default function Page() {
 
               <Col span={5}>
                 <Form.Item label="Golongan Darah" name="golDarah">
-                  <Select placeholder="Pilih golongan darah">
+                  <Select placeholder="">
                     <Option value="A">A</Option>
                     <Option value="B">B</Option>
                     <Option value="AB">AB</Option>
