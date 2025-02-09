@@ -1,6 +1,6 @@
 const baseUrl = process.env.NEXT_PUBLIC_URL_API;
 
-export const jumlahIbuHamil = async () => {
+export const countIbuHamil = async () => {
   const res = await fetch(`${baseUrl}/api/ibu-hamil/jumlah-data`, {
     cache: 'no-store',
   });
@@ -9,15 +9,20 @@ export const jumlahIbuHamil = async () => {
   return jumlahIbuHamil;
 };
 
-export const getIbuHamil = async (id) => {
-  const resource = id
-    ? `${baseUrl}/api/ibu-hamil/${id}`
-    : `${baseUrl}/api/ibu-hamil`;
+export const getAllIbuHamil = async () => {
+  const res = await fetch(`${baseUrl}/api/ibu-hamil`);
 
-  const res = await fetch(resource);
-  const ibuHamil = await res.json();
+  const items = await res.json();
 
-  return ibuHamil.data;
+  return items.data;
+};
+
+export const getIbuHamilById = async (id) => {
+  const res = await fetch(`${baseUrl}/api/ibu-hamil/${id}`);
+
+  const items = await res.json();
+
+  return items.data;
 };
 
 export const createIbuHamil = async (body) => {
@@ -29,7 +34,6 @@ export const createIbuHamil = async (body) => {
       },
       body: JSON.stringify(body),
     });
-
     const ibuHamil = await res.json();
 
     return ibuHamil;
