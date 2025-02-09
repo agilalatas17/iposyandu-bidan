@@ -121,7 +121,7 @@ export default function Page() {
     if (res.data) {
       const kunjungan = res.data.map((item) => ({
         ...item,
-        usia_kehamilan: item.usia_kehamilan + ' Minggu',
+        usia_kehamilan: `${item.usia_kehamilan} minggu`,
         tanggal_daftar: dayjs(item.tanggal_daftar).format('DD MMMM YYYY'),
       }));
 
