@@ -39,3 +39,20 @@ export const createKunjunganIbuHamil = async (body) => {
     return err.message;
   }
 };
+
+export const updateKunjunganIbuHamil = async (id, body) => {
+  try {
+    const res = await fetch(`${baseUrl}/api/ibu-hamil/kunjungan/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = res.json();
+    return data;
+  } catch (err) {
+    return err.message;
+  }
+};

@@ -40,7 +40,11 @@ export default function KunjunganPage() {
   const dropdownItems = (id) => [
     {
       key: 'edit',
-      label: <Link href={`/ibu-hamil/ubah-data/${id}`}>Ubah</Link>,
+      label: (
+        <Link href={`/ibu-hamil/${ibuHamilId}/kunjungan/${id}/ubah-data/`}>
+          Ubah
+        </Link>
+      ),
       icon: <EditOutlinedIcon />,
     },
     {
@@ -158,13 +162,23 @@ export default function KunjunganPage() {
       </Row>
 
       <Row className="pb-4" justify="end">
-        <Button
-          type="primary"
-          icon={<AddOutlinedIcon />}
-          href={`/ibu-hamil/${ibuHamilId}/kunjungan/tambah-data`}
-        >
-          Kunjungan
-        </Button>
+        <Space>
+          <Button
+            type="primary"
+            icon={<AddOutlinedIcon />}
+            href={`/ibu-hamil/${ibuHamilId}/kunjungan/tambah-data`}
+          >
+            Kunjungan
+          </Button>
+          <Button
+            className="border-primary"
+            color="primary"
+            variant="outlined"
+            href="/ibu-hamil"
+          >
+            Kembali
+          </Button>
+        </Space>
       </Row>
       <Table
         columns={KUNJUNGAN_COLUMN}
@@ -187,7 +201,6 @@ export default function KunjunganPage() {
         size="middle"
         bordered
       />
-      <Button>Kembali</Button>
     </>
   );
 }
