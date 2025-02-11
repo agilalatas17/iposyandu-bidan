@@ -56,3 +56,19 @@ export const updateKunjunganIbuHamil = async (id, body) => {
     return err.message;
   }
 };
+
+export const deleteKunjungan = async (id) => {
+  try {
+    const res = await fetch(`${baseUrl}/api/ibu-hamil/kunjungan/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = res.json();
+    return data;
+  } catch (err) {
+    return err.message;
+  }
+};

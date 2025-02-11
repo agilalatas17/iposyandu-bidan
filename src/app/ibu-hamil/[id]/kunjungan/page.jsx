@@ -21,7 +21,7 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { getAllKunjungan } from '@/libs/api/kunjunganIbuHamil';
+import { getAllKunjungan, deleteKunjungan } from '@/libs/api/kunjunganIbuHamil';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
@@ -142,7 +142,7 @@ export default function KunjunganPage() {
 
   const handleDelete = async (id) => {
     try {
-      await deleteIbuHamil(id);
+      await deleteKunjungan(id);
 
       const data = getTableData();
 
