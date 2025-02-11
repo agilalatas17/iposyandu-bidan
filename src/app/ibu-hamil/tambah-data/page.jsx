@@ -27,7 +27,7 @@ dayjs.locale('id');
 
 const { Option } = Select;
 
-export default function Page() {
+export default function CreateIbuHamilPage() {
   const [formTambahIbuHamil] = Form.useForm();
   const router = useRouter();
 
@@ -321,11 +321,11 @@ export default function Page() {
 
             <Flex justify="flex-end" className="mt-8">
               <Space size={32}>
-                <Button type="primary" htmlType="submit" size="large">
-                  Simpan
-                </Button>
                 <Button type="default" href="/ibu-hamil" size="large" danger>
                   Batal
+                </Button>
+                <Button type="primary" htmlType="submit" size="large">
+                  Simpan
                 </Button>
               </Space>
             </Flex>

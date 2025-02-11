@@ -29,10 +29,13 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
-export default function Page() {
+export default function KunjunganPage() {
   const params = useParams();
   const ibuHamilId = params.id;
   const [data, setData] = useState([]);
+
+  // Pagination
+  const [page, setPage] = useState(1);
 
   const dropdownItems = (id) => [
     {
@@ -62,7 +65,7 @@ export default function Page() {
     {
       key: '1',
       title: 'No',
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => (page - 1) * 10 + (index + 1),
       width: 30,
     },
     {
@@ -135,11 +138,11 @@ export default function Page() {
 
   const handleDelete = async (id) => {
     try {
-      //   await deleteIbuHamil(id);
+      await deleteIbuHamil(id);
 
-      //   const data = getTableData();
+      const data = getTableData();
 
-      //   setData(data.data);
+      setData(data.data);
 
       message.success('Data berhasil dihapus!');
     } catch (err) {
@@ -158,12 +161,33 @@ export default function Page() {
         <Button
           type="primary"
           icon={<AddOutlinedIcon />}
-          href="/ibu-hamil/kunjungan/tambah-data"
+          href={`/ibu-hamil/${ibuHamilId}/kunjungan/tambah-data`}
         >
           Kunjungan
         </Button>
       </Row>
-      <Table columns={KUNJUNGAN_COLUMN} dataSource={data} bordered />
+      <Table
+        columns={KUNJUNGAN_COLUMN}
+        dataSource={data}
+        pagination={{
+          position: ['bottomLeft'],
+          defaultCurrent: 1,
+          current: page,
+          defaultPageSize: 10,
+          pageSize: 10,
+          showTotal: (total, range) =>
+            `${range[0]}-${range[1]} dari total ${total} data`,
+          onChange: (value) => {
+            setPage(value);
+          },
+        }}
+        rowClassName={(record, index) => {
+          return index % 2 === 1 ? 'bg-[#EFF6FF]' : '';
+        }}
+        size="middle"
+        bordered
+      />
+      <Button>Kembali</Button>
     </>
   );
 }

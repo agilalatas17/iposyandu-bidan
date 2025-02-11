@@ -22,18 +22,12 @@ const navItems = [
     key: 'nifas',
     label: <Link href="/ibu-nifas">Ibu Nifas</Link>,
   },
-  {
-    key: 'kb',
-    label: <Link href="/keluarga-berencana">Keluarga Berencana</Link>,
-  },
 ];
 
 function SideMenu() {
   const pathname = usePathname();
   const [current, setCurrent] = useState();
 
-  console.log('path', current);
-  console.log('pathname', pathname);
   return (
     <>
       <Menu items={navItems} />

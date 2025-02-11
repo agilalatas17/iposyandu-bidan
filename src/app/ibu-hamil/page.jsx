@@ -29,8 +29,10 @@ dayjs.locale('id');
 
 import { getAllIbuHamil, deleteIbuHamil } from '@/libs/api/ibuHamil';
 
-export default function Page() {
+export default function IbuHamilPage() {
   const [data, setData] = useState([]);
+  // Pagination
+  const [page, setPage] = useState(1);
 
   const dropdownItems = (id) => [
     {
@@ -65,7 +67,7 @@ export default function Page() {
     {
       key: '1',
       title: 'No',
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => (page - 1) * 10 + (index + 1),
       width: 30,
     },
     {
@@ -165,7 +167,27 @@ export default function Page() {
           Ibu Hamil
         </Button>
       </Row>
-      <Table columns={IBU_HAMIL_COLUMN} dataSource={data} bordered />
+      <Table
+        columns={IBU_HAMIL_COLUMN}
+        dataSource={data}
+        pagination={{
+          position: ['bottomLeft'],
+          defaultCurrent: 1,
+          current: page,
+          defaultPageSize: 10,
+          pageSize: 10,
+          showTotal: (total, range) =>
+            `${range[0]}-${range[1]} dari total ${total} data`,
+          onChange: (value) => {
+            setPage(value);
+          },
+        }}
+        rowClassName={(record, index) => {
+          return index % 2 === 1 ? 'bg-[#EFF6FF]' : '';
+        }}
+        size="middle"
+        bordered
+      />
     </>
   );
 }

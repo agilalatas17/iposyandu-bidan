@@ -1,7 +1,11 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Card, Row, Space, Col, Divider } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { getKunjunganById } from '@/libs/api/kunjunganIbuHamil';
 
 import dayjs from 'dayjs';
@@ -10,9 +14,20 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
-export default async function KunjunganDetailPage({ params: { kunjunganId } }) {
-  const res = await getKunjunganById(kunjunganId);
-  const data = res.data;
+export default function DetailKunjunganPage() {
+  // const { id } = useParams();
+  const { id, kunjunganId } = useParams();
+  const ibuHamilId = id;
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getKunjunganById(kunjunganId);
+      setData(response.data);
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -111,7 +126,7 @@ export default async function KunjunganDetailPage({ params: { kunjunganId } }) {
 
           <Row gutter={[16, 0]} className="mt-12">
             <Title level={4} className="w-full ps-2 !mb-4 !font-bold">
-              Janin
+              Janin / Bayi
             </Title>
 
             <Col span={6}>
@@ -167,7 +182,7 @@ export default async function KunjunganDetailPage({ params: { kunjunganId } }) {
 
       <Row justify="end" className="pt-6">
         <Link
-          href={`/ibu-hamil/${data.ibu_hamil_id}/kunjungan`}
+          href={`/ibu-hamil/${ibuHamilId}/kunjungan`}
           className="py-2 px-9 font-medium text-black bg-[#ADD8E6] rounded-md hover:bg-[#ADD8E6]/75 hover:text-black/75"
         >
           Kembali

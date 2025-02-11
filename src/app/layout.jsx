@@ -1,6 +1,6 @@
 import { ConfigProvider, App } from 'antd';
-import { themeConfig } from '@/libs/themes/themeConfig';
-import { messageConfig } from '@/libs/themes/messageConfig';
+import { antdThemeConfig } from '@/libs/antd/antdThemeConfig';
+import { antdMessageConfig } from '@/libs/antd/antdMessageConfig';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Poppins } from 'next/font/google';
 import './globals.css';
@@ -8,7 +8,6 @@ import './globals.css';
 import { Layout } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import { Content } from 'antd/es/layout/layout';
-
 import SideMenu from '@/components/SideMenu/SideMenu';
 import HeaderApp from '@/components/HeaderApp/HeaderApp';
 
@@ -25,8 +24,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="id">
       <body className={`${poppins.className} antialiased`}>
-        <ConfigProvider theme={themeConfig}>
-          <App message={messageConfig}>
+        <ConfigProvider theme={antdThemeConfig} message={antdMessageConfig}>
+          <App>
             <AntdRegistry>
               <Layout
                 style={{
@@ -34,7 +33,7 @@ export default function RootLayout({ children }) {
                 }}
                 hasSider
               >
-                <Sider theme="light" width={280}>
+                <Sider theme="light" width={260}>
                   <div className="pt-4 pb-6 text-center text-xl font-extrabold text-black">
                     iPosyandu Bidan
                   </div>
@@ -42,7 +41,10 @@ export default function RootLayout({ children }) {
                 </Sider>
                 <Layout>
                   <HeaderApp />
-                  <Content className="py-4 px-6" style={{ minHeight: 380 }}>
+                  <Content
+                    className="py-4 px-6 bg-[#F2F5F7]"
+                    style={{ minHeight: 380 }}
+                  >
                     <div>{children}</div>
                   </Content>
                 </Layout>
