@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
             <App>
               <AntdRegistry>
                 <Suspense fallback={<Loading />}>
-                  <main>{children}</main>
+                  <main className="bg-gray-100 h-screen">{children}</main>
                 </Suspense>
               </AntdRegistry>
             </App>
