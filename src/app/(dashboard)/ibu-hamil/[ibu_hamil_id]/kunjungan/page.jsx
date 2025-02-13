@@ -14,12 +14,13 @@ import {
 } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { getAllKunjungan, deleteKunjungan } from '@/libs/api/kunjunganIbuHamil';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
@@ -27,23 +28,24 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
-import { getAllIbuHamil, deleteIbuHamil } from '@/libs/api/ibuHamil';
-
-export default function IbuHamilPage() {
+export default function KunjunganPage() {
+  const params = useParams();
+  const { ibu_hamil_id } = params;
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+
   // Pagination
   const [page, setPage] = useState(1);
 
   const dropdownItems = (id) => [
     {
       key: 'edit',
-      label: <Link href={`/ibu-hamil/ubah-data/${id}`}>Ubah</Link>,
+      label: (
+        <Link href={`/ibu-hamil/${ibu_hamil_id}/kunjungan/${id}/ubah-data/`}>
+          Ubah
+        </Link>
+      ),
       icon: <EditOutlinedIcon />,
-    },
-    {
-      key: 'kunjungan',
-      label: <Link href={`/ibu-hamil/${id}/kunjungan`}>Kunjungan</Link>,
-      icon: <EventAvailableIcon />,
     },
     {
       key: 'hapus',
@@ -63,7 +65,7 @@ export default function IbuHamilPage() {
     },
   ];
 
-  const IBU_HAMIL_COLUMN = [
+  const KUNJUNGAN_COLUMN = [
     {
       key: '1',
       title: 'No',
@@ -73,17 +75,17 @@ export default function IbuHamilPage() {
     {
       key: '2',
       title: 'Tanggal Daftar',
-      dataIndex: 'tanggalDaftar',
+      dataIndex: 'tanggal_daftar',
     },
     {
       key: '3',
-      title: 'NIK',
-      dataIndex: 'nik',
+      title: 'Usia Kehamilan',
+      dataIndex: 'usia_kehamilan',
     },
     {
       key: '4',
-      title: 'Nama',
-      dataIndex: 'nama',
+      title: 'Trimester Ke',
+      dataIndex: 'trimester_ke',
     },
     {
       key: '5',
@@ -94,7 +96,7 @@ export default function IbuHamilPage() {
           <Tooltip title="Detail">
             <Link
               className="px-2 py-3 hover:bg-blue-600/60 bg-blue-600 rounded"
-              href={`/ibu-hamil/${record.id}`}
+              href={`/ibu-hamil/${record.ibu_hamil_id}/kunjungan/${record.id}`}
               key={record.id}
             >
               <VisibilityIcon fontSize="small" className="text-white" />
@@ -121,25 +123,41 @@ export default function IbuHamilPage() {
     },
   ];
 
-  const getTableData = async () => {
-    const res = await getAllIbuHamil();
-    if (res) {
-      const ibuHamil = res.map((item) => ({
-        ...item,
-        tanggalDaftar: dayjs(item.tanggalDaftar).format('DD MMM YYYY'),
-      }));
+  const loadData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getAllKunjungan(ibu_hamil_id);
+      if (res.data) {
+        const kunjungan = res.data.map((item) => ({
+          ...item,
+          usia_kehamilan: `${item.usia_kehamilan} minggu`,
+          tanggal_daftar: dayjs(item.tanggal_daftar).format('DD MMMM YYYY'),
+        }));
 
-      setData(ibuHamil);
+        setData(kunjungan);
+      }
+
+      message.open({
+        type: 'success',
+        content: 'Berhasil memuat data!',
+      });
+    } catch (err) {
+      message.open({
+        type: 'error',
+        content: 'Gagal memuat data!',
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    getTableData();
+    loadData();
   }, []);
 
   const handleDelete = async (id) => {
     try {
-      await deleteIbuHamil(id);
+      await deleteKunjungan(id);
 
       const data = getTableData();
 
@@ -154,21 +172,32 @@ export default function IbuHamilPage() {
   return (
     <>
       <Row className="pb-7 pt-0">
-        <Title level={2}>Ibu Hamil</Title>
+        <Title level={2}>Kunjungan Ibu Hamil</Title>
         <Divider className="border-2 !m-0" />
       </Row>
 
       <Row className="pb-4" justify="end">
-        <Button
-          type="primary"
-          icon={<AddOutlinedIcon />}
-          href="/ibu-hamil/tambah-data"
-        >
-          Ibu Hamil
-        </Button>
+        <Space>
+          <Button
+            type="primary"
+            icon={<AddOutlinedIcon />}
+            href={`/ibu-hamil/${ibu_hamil_id}/kunjungan/tambah-data`}
+          >
+            Kunjungan
+          </Button>
+          <Button
+            className="border-primary"
+            color="primary"
+            variant="outlined"
+            href="/ibu-hamil"
+          >
+            Kembali
+          </Button>
+        </Space>
       </Row>
       <Table
-        columns={IBU_HAMIL_COLUMN}
+        columns={KUNJUNGAN_COLUMN}
+        loading={isLoading}
         dataSource={data}
         pagination={{
           position: ['bottomLeft'],

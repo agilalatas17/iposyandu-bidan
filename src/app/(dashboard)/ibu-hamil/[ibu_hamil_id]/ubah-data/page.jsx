@@ -27,7 +27,7 @@ dayjs.locale('id');
 
 const { Option } = Select;
 
-export default function Page() {
+export default function IbuHamilUpdatePage() {
   const [formUbahIbuHamil] = Form.useForm();
   const { id } = useParams();
   const router = useRouter();
@@ -44,7 +44,7 @@ export default function Page() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const loadData = async () => {
       try {
         const getIbuHamilData = await getIbuHamilById(id);
 
@@ -67,12 +67,12 @@ export default function Page() {
       }
     };
 
-    fetchData();
+    loadData();
   }, []);
 
   const onUpdateData = async (values) => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const data = {
         tanggalDaftar: values.tanggalDaftar ? values.tanggalDaftar : null,
         nik: values.nik,
@@ -96,9 +96,12 @@ export default function Page() {
       await updateIbuHamil(id, data);
       message.success('Berhasil mengubah data');
       formUbahIbuHamil.resetFields();
+      setIsLoading(false);
       router.push('/ibu-hamil');
     } catch (error) {
       message.error('Gagal mengubah data');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -109,7 +112,11 @@ export default function Page() {
         <Divider className="border-2 !m-0" />
       </Row>
       <Row>
-        <Card className=" shadow-primary" style={{ width: '100%' }}>
+        <Card
+          className=" shadow-primary"
+          style={{ width: '100%' }}
+          loading={isLoading}
+        >
           <Form
             name="form-ibu-hamil"
             form={formUbahIbuHamil}

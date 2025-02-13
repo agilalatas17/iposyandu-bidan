@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Row,
   Col,
@@ -20,10 +20,7 @@ import Title from 'antd/es/typography/Title';
 import TextArea from 'antd/es/input/TextArea';
 import { useRouter, useParams } from 'next/navigation';
 import { getIbuHamilById } from '@/libs/api/ibuHamil';
-import {
-  getKunjunganById,
-  updateKunjunganIbuHamil,
-} from '@/libs/api/kunjunganIbuHamil';
+import { createKunjunganIbuHamil } from '@/libs/api/kunjunganIbuHamil';
 import {
   hitungUsiaKehamilan,
   hitungIndeksMasaTubuh,
@@ -38,24 +35,23 @@ dayjs.locale('id');
 
 const { Option } = Select;
 
-export default function UbahKunjunganPage() {
-  const [formUbahKunjungan] = Form.useForm();
+export default function KunjunganCreatePage() {
+  const [formCreateKunjungan] = Form.useForm();
   const params = useParams();
   const router = useRouter();
-  const { id, kunjunganId } = params;
-  const ibuHamilId = id;
+  const { ibu_hamil_id } = params;
 
   // REGEX
   const validateNumberInput = /^\d+$/;
 
   const onTanggalDaftarChange = async (date) => {
     if (date) {
-      const resIbuHamil = await getIbuHamilById(ibuHamilId);
+      const resIbuHamil = await getIbuHamilById(ibu_hamil_id);
       const hpht = resIbuHamil.hpht;
       const tanggalDaftar = date;
       const usiaKehamilan = hitungUsiaKehamilan(hpht, tanggalDaftar);
       const trimester = tentukanTrimester(usiaKehamilan);
-      formUbahKunjungan.setFieldsValue({
+      formCreateKunjungan.setFieldsValue({
         usia_kehamilan: usiaKehamilan,
         trimester_ke: trimester,
       });
@@ -63,42 +59,19 @@ export default function UbahKunjunganPage() {
   };
 
   const onBBTBChange = () => {
-    const bb = formUbahKunjungan.getFieldValue('berat_badan');
-    const tb = formUbahKunjungan.getFieldValue('tinggi_badan');
+    const bb = formCreateKunjungan.getFieldValue('berat_badan');
+    const tb = formCreateKunjungan.getFieldValue('tinggi_badan');
     const imt = hitungIndeksMasaTubuh(bb, tb);
 
-    formUbahKunjungan.setFieldsValue({
+    formCreateKunjungan.setFieldsValue({
       indeks_masa_tubuh: imt,
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getKunjunganById(kunjunganId);
-        const kunjungan = res.data;
-
-        if (kunjungan) {
-          formUbahKunjungan.setFieldsValue({
-            ...kunjungan,
-            tanggal_daftar: dayjs(kunjungan.tanggal_daftar),
-          });
-        }
-      } catch (err) {
-        message.open({
-          type: 'error',
-          message: 'Gagal memuat data' + err.message,
-        });
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const onUpdateData = async (values) => {
+  const onCreateData = async (values) => {
     try {
       const body = {
-        ibu_hamil_id: ibuHamilId,
+        ibu_hamil_id: ibu_hamil_id,
         tanggal_daftar: values.tanggal_daftar,
         keluhan: values.keluhan,
         berat_badan: values.berat_badan,
@@ -110,16 +83,15 @@ export default function UbahKunjunganPage() {
         jumlah_janin: values.jumlah_janin,
       };
 
-      await updateKunjunganIbuHamil(kunjunganId, body);
+      await createKunjunganIbuHamil(body);
 
-      message.success('Berhasil mengubah data kunjungan!');
-      formUbahKunjungan.resetFields();
-      console.log('IBU HAMIL ID ON UPDATE: ', ibuHamilId);
-      router.push(`/ibu-hamil/${ibuHamilId}/kunjungan`);
+      message.success('Berhasil menambahkan data kunjungan!');
+      formCreateKunjungan.resetFields();
+      router.push(`/ibu-hamil/${ibu_hamil_id}/kunjungan`);
     } catch (err) {
       message.open({
         type: 'error',
-        content: 'Gagal mengubah data kunjungan!',
+        content: 'Gagal menambahkan data kunjungan!',
       });
     }
   };
@@ -127,7 +99,7 @@ export default function UbahKunjunganPage() {
   return (
     <>
       <Row className="pb-7 pt-0">
-        <Title level={2}>Ubah Data Kunjungan Ibu Hamil</Title>
+        <Title level={2}>Tambah Data Kunjungan Ibu Hamil</Title>
         <Divider className="border-2 !m-0" />
       </Row>
 
@@ -135,8 +107,8 @@ export default function UbahKunjunganPage() {
         <Card className=" shadow-primary" style={{ width: '100%' }}>
           <Form
             name="form-kunjungan-ibu-hamil"
-            form={formUbahKunjungan}
-            onFinish={onUpdateData}
+            form={formCreateKunjungan}
+            onFinish={onCreateData}
             layout="vertical"
           >
             <Row justify="space-between" gutter={[16, 0]} wrap>
@@ -322,7 +294,7 @@ export default function UbahKunjunganPage() {
               <Space size={32}>
                 <Button
                   type="default"
-                  href={`/ibu-hamil/${ibuHamilId}/kunjungan`}
+                  href={`/ibu-hamil/${ibu_hamil_id}/kunjungan`}
                   size="large"
                   danger
                 >

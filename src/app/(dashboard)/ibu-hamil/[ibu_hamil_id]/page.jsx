@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, Row, Space, Col, Divider } from 'antd';
+import { Card, Row, Space, Col, Divider, message } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import Link from 'next/link';
@@ -14,17 +14,34 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
-export default function Page() {
-  const { id } = useParams();
+export default function IbuHamilDetailPage() {
+  const params = useParams();
+  const { ibu_hamil_id } = params;
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await getIbuHamilById(id);
+  async function loadData() {
+    try {
+      setIsLoading(true);
+      const response = await getIbuHamilById(ibu_hamil_id);
       setData(response);
-    }
 
-    fetchData();
+      message.open({
+        type: 'success',
+        content: 'Berhasil memuat data!',
+      });
+    } catch (err) {
+      message.open({
+        type: 'error',
+        content: 'Gagal memuat data!',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   return (
@@ -35,7 +52,11 @@ export default function Page() {
       </Row>
 
       <Row>
-        <Card className=" shadow-primary" style={{ width: '100%' }}>
+        <Card
+          className=" shadow-primary"
+          style={{ width: '100%' }}
+          loading={isLoading}
+        >
           <Row gutter={[16, 48]} className="py-5">
             <Col span={6}>
               <Space direction="vertical" className="!gap-1.5">

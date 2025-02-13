@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 const navItems = [
   {
     key: 'dashboard',
-    label: <Link href="/">Dashboard</Link>,
+    label: <Link href="/dashboard">Dashboard</Link>,
   },
   {
     key: 'ibu-hamil',

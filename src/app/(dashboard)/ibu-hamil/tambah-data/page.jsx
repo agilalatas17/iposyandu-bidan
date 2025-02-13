@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Row,
   Col,
@@ -29,6 +29,8 @@ const { Option } = Select;
 
 export default function CreateIbuHamilPage() {
   const [formTambahIbuHamil] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState({});
   const router = useRouter();
 
   const onHphtChange = (date) => {
@@ -42,6 +44,8 @@ export default function CreateIbuHamilPage() {
 
   const onCreateData = async (values) => {
     try {
+      setIsLoading(true);
+
       const data = {
         tanggalDaftar: values.tanggalDaftar,
         nik: values.nik,
@@ -72,11 +76,14 @@ export default function CreateIbuHamilPage() {
       message.success('Data ibu Hamil berhasil dibuat!');
       formTambahIbuHamil.resetFields();
       router.push('/ibu-hamil');
+      setIsLoading(false);
     } catch (err) {
       message.open({
         type: 'error',
         content: 'Gagal menambahkan data!',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,7 +94,11 @@ export default function CreateIbuHamilPage() {
         <Divider className="border-2 !m-0" />
       </Row>
       <Row>
-        <Card className=" shadow-primary" style={{ width: '100%' }}>
+        <Card
+          className=" shadow-primary"
+          style={{ width: '100%' }}
+          loading={isLoading}
+        >
           <Form
             name="form-ibu-hamil"
             form={formTambahIbuHamil}
@@ -324,7 +335,12 @@ export default function CreateIbuHamilPage() {
                 <Button type="default" href="/ibu-hamil" size="large" danger>
                   Batal
                 </Button>
-                <Button type="primary" htmlType="submit" size="large">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  loading={isLoading}
+                >
                   Simpan
                 </Button>
               </Space>

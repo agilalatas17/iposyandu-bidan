@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, Row, Space, Col, Divider } from 'antd';
+import { Card, Row, Space, Col, Divider, message } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
 import Link from 'next/link';
@@ -14,19 +14,30 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
-export default function DetailKunjunganPage() {
+export default function KunjunganDetailPage() {
   // const { id } = useParams();
-  const { id, kunjunganId } = useParams();
-  const ibuHamilId = id;
+  const { ibu_hamil_id, kunjungan_id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await getKunjunganById(kunjunganId);
+  async function loadData() {
+    try {
+      setIsLoading(true);
+      const response = await getKunjunganById(kunjungan_id);
       setData(response.data);
+      setIsLoading(false);
+    } catch (err) {
+      message.open({
+        type: 'error',
+        message: 'Gagal memuat data!',
+      });
+    } finally {
+      setIsLoading(false);
     }
+  }
 
-    fetchData();
+  useEffect(() => {
+    loadData();
   }, []);
 
   return (
@@ -37,7 +48,11 @@ export default function DetailKunjunganPage() {
       </Row>
 
       <Row>
-        <Card className=" shadow-primary" style={{ width: '100%' }}>
+        <Card
+          className=" shadow-primary"
+          style={{ width: '100%' }}
+          loading={isLoading}
+        >
           <Row gutter={[16, 48]}>
             <Col span={6}>
               <Space direction="vertical" className="!gap-1.5">
@@ -182,7 +197,7 @@ export default function DetailKunjunganPage() {
 
       <Row justify="end" className="pt-6">
         <Link
-          href={`/ibu-hamil/${ibuHamilId}/kunjungan`}
+          href={`/ibu-hamil/${ibu_hamil_id}/kunjungan`}
           className="py-2 px-9 font-medium text-black bg-[#ADD8E6] rounded-md hover:bg-[#ADD8E6]/75 hover:text-black/75"
         >
           Kembali
