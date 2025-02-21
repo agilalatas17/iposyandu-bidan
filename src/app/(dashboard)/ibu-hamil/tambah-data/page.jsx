@@ -27,7 +27,7 @@ dayjs.locale('id');
 
 const { Option } = Select;
 
-export default function CreateIbuHamilPage() {
+export default function IbuHamilCreatePage() {
   const [formTambahIbuHamil] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
@@ -43,9 +43,8 @@ export default function CreateIbuHamilPage() {
   };
 
   const onCreateData = async (values) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-
       const data = {
         tanggalDaftar: values.tanggalDaftar,
         nik: values.nik,

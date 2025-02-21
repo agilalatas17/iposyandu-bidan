@@ -30,7 +30,7 @@ dayjs.locale('id');
 import { getAllIbuHamil, deleteIbuHamil } from '@/libs/api/ibuHamil';
 
 export default function IbuHamilPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   // Pagination
   const [page, setPage] = useState(1);
@@ -123,7 +123,6 @@ export default function IbuHamilPage() {
   ];
 
   const loadData = async () => {
-    setIsLoading(true);
     try {
       const res = await getAllIbuHamil();
       if (res) {
@@ -134,7 +133,6 @@ export default function IbuHamilPage() {
 
         setData(ibuHamil);
       }
-      setIsLoading(false);
     } catch (err) {
       message.open({
         type: 'error',

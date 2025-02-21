@@ -25,7 +25,7 @@ import {
   hitungUsiaKehamilan,
   hitungIndeksMasaTubuh,
   tentukanTrimester,
-} from '@/utils';
+} from '@/libs/utils';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
