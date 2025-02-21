@@ -4,19 +4,18 @@ import { useState, useEffect } from 'react';
 import { Row, Col, Card, Flex, Divider, Statistic, message } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { countIbuHamil } from '@/libs/api/ibuHamil';
+import { refreshTokenUser } from '@/libs/api/auth';
 
 export default function Dashboard() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [ibuHamil, setIbuHamil] = useState({});
 
   useEffect(() => {
     async function fetchData() {
-      setIsLoading(true);
       try {
         const ibuHamil = await countIbuHamil();
 
         setIbuHamil(ibuHamil);
-        setIsLoading(false);
       } catch (err) {
         message.open({
           type: 'error',
@@ -56,6 +55,7 @@ export default function Dashboard() {
               className="font-semibold"
               title="Bersalin"
               value={'12'}
+              loading={isLoading}
               valueStyle={{ fontSize: '32px', fontWeight: 'bold' }}
             />
           </Card>
@@ -67,6 +67,7 @@ export default function Dashboard() {
               className="font-semibold"
               title="Nifas"
               value={'8'}
+              loading={isLoading}
               valueStyle={{ fontSize: '32px', fontWeight: 'bold' }}
             />
           </Card>
