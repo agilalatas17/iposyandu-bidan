@@ -1,25 +1,90 @@
 'use client';
 
-import { useFormStatus } from 'react-dom';
-import { Form, Input, Button } from 'antd';
+import { useState } from 'react';
+import { setCookie } from '@/libs/cookies';
+import { Form, Input, Button, message } from 'antd';
 import { LockOutlined, PhoneOutlined } from '@ant-design/icons';
 import FormItem from 'antd/es/form/FormItem';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { loginUser } from '@/libs/api/auth';
+import { getUser } from '@/libs/api/users';
+import dayjs from 'dayjs';
+import { setAuthorization } from '@/libs/axios';
 
 export default function FormLogin() {
-  const { pending } = useFormStatus();
+  const [formLoginUser] = Form.useForm();
+  const { push } = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   // REGEX
   let phoneNumberRegex = /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/;
+
+  const onLogin = async (values) => {
+    setIsLoading(true);
+
+    try {
+      const { noTelp, password } = values;
+
+      const res = await loginUser({ noTelp, password });
+
+      if (res.status === 'error') {
+        return message.open({
+          type: 'error',
+          content: res.message || 'Gagal login!',
+        });
+      }
+
+      setAuthorization(res.data.token);
+
+      const detailUser = await getUser();
+      if (detailUser) {
+        localStorage.setItem('token', res.data.token);
+
+        const token2 = localStorage.setItem(
+          'token',
+          JSON.stringify({ ...res.data, noTelp: noTelp })
+        );
+        console.log('TOKEN 2 : ', token2);
+
+        const expired = dayjs().add(12, 'hour').toDate();
+
+        setCookie('iposyandubidan:user', detailUser.data.nama, {
+          httpOnly: true,
+          expires: expired,
+        });
+      }
+
+      message.open({
+        type: 'success',
+        content: 'Berhasil login!',
+      });
+      formLoginUser.resetFields();
+      push('/dashboard');
+    } catch (err) {
+      return message.open({
+        type: 'error',
+        content: err.message || 'Terjadi kesalahan!',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <Form name="login" size="large">
+    <Form
+      name="form-login"
+      form={formLoginUser}
+      onFinish={onLogin}
+      size="large"
+    >
       <FormItem
-        name="no_telp"
+        name="noTelp"
         rules={[
           { required: true, message: 'Masukkan nomer telepon!' },
           {
             pattern: phoneNumberRegex,
-            message: 'Nomer telepon tidak valid',
+            message: 'Nomer telepon tidak valid.',
           },
         ]}
       >
@@ -33,6 +98,10 @@ export default function FormLogin() {
             required: true,
             message: 'Masukkan password!',
           },
+          {
+            min: 8,
+            message: 'Minimal 8 karakter.',
+          },
         ]}
       >
         <Input
@@ -44,6 +113,7 @@ export default function FormLogin() {
 
       <div className="mt-8">
         <Button
+          loading={isLoading}
           type="primary"
           htmlType="submit"
           className="w-full !font-semibold"
