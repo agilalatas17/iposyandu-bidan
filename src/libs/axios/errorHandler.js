@@ -1,28 +1,26 @@
-import { notification } from 'antd';
+import { message } from 'antd';
 
 export default function errorHandler(error) {
   if (error) {
-    let message;
-
+    let textMessage;
     if (error.response) {
-      if (error.response.status === 500) {
-        message = 'Internal server error.';
+      const { response } = error;
+
+      if (response.status === 500) {
+        textMessage = 'Internal server error.';
       } else {
-        message = error.response.data.message;
+        textMessage = response.data?.message;
       }
 
-      notification.error({
-        message: 'Error',
-        description: message,
+      message.open({
+        type: 'error',
+        content: textMessage,
       });
 
       return Promise.reject(error);
     }
 
-    notification.error({
-      message: 'Error',
-      description: 'Network or unexpected error occurred.',
-    });
+    message.error('Network or unexpected error occurred.');
 
     return Promise.reject(error);
   }
