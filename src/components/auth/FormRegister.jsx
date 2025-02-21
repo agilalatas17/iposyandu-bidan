@@ -1,6 +1,8 @@
 'use client';
 
-import { Form, Input, Button } from 'antd';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Form, Input, Button, message } from 'antd';
 import {
   LockOutlined,
   PhoneOutlined,
@@ -8,24 +10,66 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import FormItem from 'antd/es/form/FormItem';
-import Title from 'antd/es/typography/Title';
 import Link from 'next/link';
+import { registerUser } from '@/libs/api/auth';
 
 export default function FormRegister() {
+  const [formRegisterUser] = Form.useForm();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   // REGEX
   let emailRegex = /^[a-zA-Z0-9._+]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
   let phoneNumberRegex = /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/;
 
+  const onRegister = async (values) => {
+    setIsLoading(true);
+
+    try {
+      const body = {
+        nama: values.nama,
+        email: values.email,
+        noTelp: values.noTelp,
+        password: values.password,
+      };
+      const res = await registerUser(body);
+
+      if (res.status === 409) {
+        return message.open({
+          type: 'error',
+          content: res.message,
+        });
+      }
+
+      message.success('Pendaftaran berhasil!');
+      formRegisterUser.resetFields();
+      router.push('/auth/login');
+    } catch (err) {
+      return message.open({
+        type: 'error',
+        content: err.message || 'Terjadi kesalahan!',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
-      <Form name="register" size="large">
+      <Form
+        name="form-register"
+        form={formRegisterUser}
+        onFinish={onRegister}
+        size="large"
+      >
         <FormItem
           name="nama"
           rules={[
-            { required: true, message: 'Masukkan email!' },
+            { required: true, message: 'Masukkan nama!' },
+            { min: 3, message: 'Nama minimal 3 huruf>' },
             {
-              pattern: emailRegex,
-              message: 'email tidak valid',
+              whitespace: true,
+              message: 'Nama tidak boleh diawali dengan spasi>',
             },
           ]}
         >
@@ -38,7 +82,11 @@ export default function FormRegister() {
             { required: true, message: 'Masukkan email!' },
             {
               pattern: emailRegex,
-              message: 'email tidak valid',
+              message: 'Email tidak valid>',
+            },
+            {
+              whitespace: true,
+              message: 'Email tidak boleh diawali dengan spasi>',
             },
           ]}
         >
@@ -46,7 +94,7 @@ export default function FormRegister() {
         </FormItem>
 
         <FormItem
-          name="no_telp"
+          name="noTelp"
           rules={[
             { required: true, message: 'Masukkan nomer telepon!' },
             {
@@ -65,6 +113,10 @@ export default function FormRegister() {
               required: true,
               message: 'Masukkan password!',
             },
+            {
+              min: 8,
+              message: 'Minimal 8 karakter',
+            },
           ]}
         >
           <Input
@@ -76,6 +128,7 @@ export default function FormRegister() {
 
         <div className="mt-8">
           <Button
+            loading={isLoading}
             type="primary"
             htmlType="submit"
             className="w-full !font-semibold"
