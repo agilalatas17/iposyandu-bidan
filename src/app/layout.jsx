@@ -1,5 +1,4 @@
 import { Suspense } from 'react';
-import { SessionProvider } from '@/components/SessionProvider';
 import { ConfigProvider, App } from 'antd';
 import { antdThemeConfig } from '@/libs/antd/antdThemeConfig';
 import { antdMessageConfig } from '@/libs/antd/antdMessageConfig';
@@ -24,17 +23,15 @@ export default function RootLayout({ children }) {
         className={`${poppins.className} antialiased`}
         suppressHydrationWarning
       >
-        <SessionProvider>
-          <ConfigProvider theme={antdThemeConfig} message={antdMessageConfig}>
-            <App>
-              <AntdRegistry>
-                <Suspense fallback={<Loading />}>
-                  <main className="bg-gray-100 h-screen">{children}</main>
-                </Suspense>
-              </AntdRegistry>
-            </App>
-          </ConfigProvider>
-        </SessionProvider>
+        <ConfigProvider theme={antdThemeConfig} message={antdMessageConfig}>
+          <App>
+            <AntdRegistry>
+              <Suspense fallback={<Loading />}>
+                <main className="bg-gray-100 h-screen">{children}</main>
+              </Suspense>
+            </AntdRegistry>
+          </App>
+        </ConfigProvider>
       </body>
     </html>
   );
