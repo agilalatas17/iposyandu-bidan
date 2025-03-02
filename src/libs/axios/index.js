@@ -1,13 +1,9 @@
 import axios from 'axios';
 import errorHandler from './errorHandler';
-import { setAuthorization } from './setAuthorization';
-const baseUrlAPI = process.env.NEXT_PUBLIC_URL_API;
+const BASE_URL_API = process.env.NEXT_PUBLIC_URL_API;
 
 const instanceAxios = axios.create({
-  baseURL: baseUrlAPI,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: BASE_URL_API,
 });
 
 instanceAxios.interceptors.response.use(
@@ -19,5 +15,5 @@ instanceAxios.interceptors.response.use(
   }
 );
 
-export { default as setAuthorization } from './setAuthorization';
+export { default as setAuthorizationHeaders } from './setAuthorizationHeaders';
 export default instanceAxios;

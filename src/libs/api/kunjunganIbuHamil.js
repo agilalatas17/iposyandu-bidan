@@ -1,74 +1,33 @@
-const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+import instanceAxios from '../axios';
 
 export const getAllKunjungan = async (ibuHamilId) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil/${ibuHamilId}/kunjungan`);
-    const kunjungan = res.json();
-
-    return kunjungan;
-  } catch (err) {
-    return err.message;
-  }
+  const res = await instanceAxios.get(`/api/ibu-hamil/${ibuHamilId}/kunjungan`);
+  return res;
 };
 
-export const getKunjunganById = async (id) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil/kunjungan/${id}`);
-
-    const kunjungan = res.json();
-    return kunjungan;
-  } catch (err) {
-    return err.message;
-  }
+export const getKunjunganById = async (kunjunganId) => {
+  const res = await instanceAxios.get(
+    `/api/ibu-hamil/kunjungan/${kunjunganId}`
+  );
+  return res;
 };
 
 export const createKunjunganIbuHamil = async (body) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil/kunjungan`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-
-    const kunjungan = await res.json();
-
-    return kunjungan;
-  } catch (err) {
-    return err.message;
-  }
+  const res = await instanceAxios.post(`/api/ibu-hamil/kunjungan`, body);
+  return res;
 };
 
-export const updateKunjunganIbuHamil = async (id, body) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil/kunjungan/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-
-    const data = res.json();
-    return data;
-  } catch (err) {
-    return err.message;
-  }
+export const updateKunjunganIbuHamil = async (kunjunganId, body) => {
+  const res = await instanceAxios.put(
+    `/api/ibu-hamil/kunjungan/${kunjunganId}`,
+    body
+  );
+  return res;
 };
 
-export const deleteKunjungan = async (id) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil/kunjungan/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const data = res.json();
-    return data;
-  } catch (err) {
-    return err.message;
-  }
+export const deleteKunjungan = async (kunjunganId) => {
+  const res = await instanceAxios.delete(
+    `/api/ibu-hamil/kunjungan/${kunjunganId}`
+  );
+  return res;
 };
