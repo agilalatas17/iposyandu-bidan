@@ -13,7 +13,7 @@ export default function DashboardLayout({ children }) {
       hasSider
     >
       <Sider theme="light" width={260}>
-        <div className="pt-4 pb-6 text-center text-xl font-extrabold text-black">
+        <div className="pt-4 pb-6 text-center text-xl font-bold text-black">
           iPosyandu Bidan
         </div>
         <SideMenu />

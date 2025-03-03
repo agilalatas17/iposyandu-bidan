@@ -1,16 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Menu } from 'antd';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 function SideMenu() {
   const pathname = usePathname();
-  const router = useRouter();
-
-  const isPathname = window.location.href;
-  const activeLink = '/' + isPathname.split('/').pop();
 
   const navItems = [
     {
@@ -18,8 +13,10 @@ function SideMenu() {
       label: (
         <Link
           href="/dashboard"
-          className={`text-slate-500 hover:text-indigo-500 [&.active]:bg-indigo-100 [&.active]:text-indigo-600 ${
-            pathname === activeLink ? 'active' : ''
+          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-indigo-500 hover:font-medium ${
+            pathname.startsWith('/dashboard')
+              ? '!bg-indigo-100 !font-medium !text-indigo-500'
+              : ''
           }`}
         >
           Dashboard
@@ -31,8 +28,10 @@ function SideMenu() {
       label: (
         <Link
           href="/ibu-hamil"
-          className={`text-slate-500 hover:text-indigo-500 [&.active]:bg-indigo-100 [&.active]:text-indigo-600 ${
-            pathname === activeLink ? 'active' : ''
+          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-indigo-500 hover:font-medium ${
+            pathname.startsWith('/ibu-hamil')
+              ? '!bg-indigo-100 !font-medium !text-indigo-500'
+              : ''
           }`}
         >
           Ibu Hamil
@@ -44,8 +43,10 @@ function SideMenu() {
       label: (
         <Link
           href="/ibu-bersalin"
-          className={`text-slate-500 hover:text-indigo-500 [&.active]:bg-indigo-100 [&.active]:text-indigo-600 ${
-            pathname === window.location.href ? 'active' : ''
+          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-indigo-500 hover:font-medium ${
+            pathname.startsWith('/ibu-bersalin')
+              ? '!bg-indigo-100 !font-medium !text-indigo-500'
+              : ''
           }`}
         >
           Ibu Bersalin
@@ -57,7 +58,11 @@ function SideMenu() {
       label: (
         <Link
           href="/ibu-nifas"
-          className={`${pathname === window.location.href}`}
+          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-indigo-500 hover:font-medium ${
+            pathname.startsWith('/ibu-nifas')
+              ? '!bg-indigo-100 !font-medium !text-indigo-500'
+              : ''
+          }`}
         >
           Ibu Nifas
         </Link>
@@ -65,16 +70,13 @@ function SideMenu() {
     },
   ];
 
-  console.log('NAV LINK : ', navItems);
-  console.log('PATH NAME : ', pathname);
-  console.log('PATH NAME IS PATHNAME: ', pathname === pathname);
-  console.log('ACTIVE LINK : ', activeLink);
-  console.log('WINDOW HREF : ', window.location.href);
-  console.log('WINDOW PATHNAME : ', window.location.pathname);
-
   return (
     <>
-      <Menu items={navItems} />
+      <Menu
+        defaultSelectedKeys={'1'}
+        selectedKeys={[pathname]}
+        items={navItems}
+      />
     </>
   );
 }
