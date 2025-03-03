@@ -26,3 +26,10 @@ export const hasCookie = async (name) => {
 
   return cookie;
 };
+
+export const destroyCookie = (name) => {
+  const cookieStore = cookies();
+  const cookie = cookieStore.delete(name);
+
+  return cookie;
+};

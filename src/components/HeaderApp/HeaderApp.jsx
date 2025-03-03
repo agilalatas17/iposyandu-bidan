@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getCookie } from '@/libs/cookies';
+import { getCookie, destroyCookie } from '@/libs/cookies';
 import { Header } from 'antd/es/layout/layout';
 import {
   LogoutOutlined,
