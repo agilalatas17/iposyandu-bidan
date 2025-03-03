@@ -36,6 +36,7 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
+import { rehydrateToken } from '@/libs/axios';
 const { Option } = Select;
 
 export default function KunjunganUpdatePage() {
@@ -50,7 +51,7 @@ export default function KunjunganUpdatePage() {
   const onTanggalDaftarChange = async (date) => {
     if (date) {
       const resIbuHamil = await getIbuHamilById(ibu_hamil_id);
-      const hpht = resIbuHamil.hpht;
+      const hpht = resIbuHamil.data.hpht;
       const tanggalDaftar = date;
       const usiaKehamilan = hitungUsiaKehamilan(hpht, tanggalDaftar);
       const trimester = tentukanTrimester(usiaKehamilan);
@@ -71,27 +72,28 @@ export default function KunjunganUpdatePage() {
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getKunjunganById(kunjungan_id);
-        const kunjungan = res.data;
+  const loadData = async () => {
+    try {
+      const res = await getKunjunganById(kunjungan_id);
+      const kunjungan = res.data;
 
-        if (kunjungan) {
-          formUbahKunjungan.setFieldsValue({
-            ...kunjungan,
-            tanggal_daftar: dayjs(kunjungan.tanggal_daftar),
-          });
-        }
-      } catch (err) {
-        message.open({
-          type: 'error',
-          message: 'Gagal memuat data' + err.message,
+      if (kunjungan) {
+        formUbahKunjungan.setFieldsValue({
+          ...kunjungan,
+          tanggal_daftar: dayjs(kunjungan.tanggal_daftar),
         });
       }
-    };
+    } catch (err) {
+      message.open({
+        type: 'error',
+        message: 'Gagal memuat data' + err.message,
+      });
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    rehydrateToken();
+    loadData();
   }, []);
 
   const onUpdateData = async (values) => {

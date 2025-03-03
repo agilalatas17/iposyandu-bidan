@@ -16,4 +16,5 @@ instanceAxios.interceptors.response.use(
 );
 
 export { default as setAuthorizationHeaders } from './setAuthorizationHeaders';
+export { default as rehydrateToken } from './rehydrateToken';
 export default instanceAxios;

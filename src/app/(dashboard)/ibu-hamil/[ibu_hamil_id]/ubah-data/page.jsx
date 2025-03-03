@@ -25,11 +25,12 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
+import { rehydrateToken } from '@/libs/axios';
 const { Option } = Select;
 
 export default function IbuHamilUpdatePage() {
   const [formUbahIbuHamil] = Form.useForm();
-  const { id } = useParams();
+  const { ibu_hamil_id } = useParams();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,37 +44,30 @@ export default function IbuHamilUpdatePage() {
     }
   };
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const getIbuHamilData = await getIbuHamilById(id);
+  const loadData = async () => {
+    try {
+      const { data } = await getIbuHamilById(ibu_hamil_id);
 
-        if (getIbuHamilData) {
-          formUbahIbuHamil.setFieldsValue({
-            ...getIbuHamilData,
-            tanggalDaftar: dayjs(getIbuHamilData.tanggalDaftar),
-            hpht: dayjs(getIbuHamilData.hpht),
-            taksiranPersalinanDate: dayjs(
-              getIbuHamilData.taksiranPersalinanDate
-            ),
-            tanggalLahir: dayjs(getIbuHamilData.tanggalLahir),
-          });
-        }
-      } catch (err) {
-        message.open({
-          type: 'error',
-          message: 'Gagal memuat data' + err.message,
+      if (data) {
+        formUbahIbuHamil.setFieldsValue({
+          ...data,
+          tanggalDaftar: dayjs(data.tanggalDaftar),
+          hpht: dayjs(data.hpht),
+          taksiranPersalinanDate: dayjs(data.taksiranPersalinanDate),
+          tanggalLahir: dayjs(data.tanggalLahir),
         });
       }
-    };
-
-    loadData();
-  }, []);
+    } catch (err) {
+      message.open({
+        type: 'error',
+        message: 'Gagal memuat data' + err.message,
+      });
+    }
+  };
 
   const onUpdateData = async (values) => {
     try {
-      setIsLoading(true);
-      const data = {
+      const payload = {
         tanggalDaftar: values.tanggalDaftar ? values.tanggalDaftar : null,
         nik: values.nik,
         nama: values.nama,
@@ -93,7 +87,7 @@ export default function IbuHamilUpdatePage() {
         faskesRujukan: values.faskesRujukan,
       };
 
-      await updateIbuHamil(id, data);
+      await updateIbuHamil(ibu_hamil_id, payload);
       message.success('Berhasil mengubah data');
       formUbahIbuHamil.resetFields();
       setIsLoading(false);
@@ -104,6 +98,11 @@ export default function IbuHamilUpdatePage() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    rehydrateToken();
+    loadData();
+  }, []);
 
   return (
     <>
@@ -328,7 +327,12 @@ export default function IbuHamilUpdatePage() {
 
             <Flex justify="flex-end" className="mt-8">
               <Space size={32}>
-                <Button type="primary" htmlType="submit" size="large">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  loading={isLoading}
+                >
                   Simpan
                 </Button>
                 <Button type="default" href="/ibu-hamil" size="large" danger>

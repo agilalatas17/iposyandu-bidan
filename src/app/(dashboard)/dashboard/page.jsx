@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Row, Col, Card, Flex, Divider, Statistic, message } from 'antd';
+import { Row, Col, Card, Divider, Statistic, message } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { countIbuHamil } from '@/libs/api/ibuHamil';
-import { refreshTokenUser } from '@/libs/api/auth';
+import { rehydrateToken } from '@/libs/axios';
 
 export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +26,7 @@ export default function Dashboard() {
       }
     }
 
+    rehydrateToken();
     fetchData();
   }, []);
 

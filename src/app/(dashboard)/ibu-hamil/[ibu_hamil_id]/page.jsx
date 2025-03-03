@@ -14,17 +14,19 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
+import { rehydrateToken } from '@/libs/axios';
+
 export default function IbuHamilDetailPage() {
   const params = useParams();
   const { ibu_hamil_id } = params;
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
 
   async function loadData() {
     try {
       setIsLoading(true);
       const response = await getIbuHamilById(ibu_hamil_id);
-      setData(response);
+      setData(response.data);
 
       message.open({
         type: 'success',
@@ -41,6 +43,7 @@ export default function IbuHamilDetailPage() {
   }
 
   useEffect(() => {
+    rehydrateToken();
     loadData();
   }, []);
 

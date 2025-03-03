@@ -14,18 +14,17 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
+import { rehydrateToken } from '@/libs/axios';
+
 export default function KunjunganDetailPage() {
-  // const { id } = useParams();
-  const { ibu_hamil_id, kunjungan_id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState({});
+  const { ibu_hamil_id, kunjungan_id } = useParams();
 
   async function loadData() {
     try {
-      setIsLoading(true);
-      const response = await getKunjunganById(kunjungan_id);
-      setData(response.data);
-      setIsLoading(false);
+      const { data } = await getKunjunganById(kunjungan_id);
+      setData(data);
     } catch (err) {
       message.open({
         type: 'error',
@@ -37,6 +36,7 @@ export default function KunjunganDetailPage() {
   }
 
   useEffect(() => {
+    rehydrateToken();
     loadData();
   }, []);
 

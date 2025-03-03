@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Row,
   Col,
@@ -25,12 +25,12 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
+import { rehydrateToken } from '@/libs/axios';
 const { Option } = Select;
 
 export default function IbuHamilCreatePage() {
   const [formTambahIbuHamil] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({});
   const router = useRouter();
 
   const onHphtChange = (date) => {
@@ -85,6 +85,10 @@ export default function IbuHamilCreatePage() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    rehydrateToken();
+  }, []);
 
   return (
     <>

@@ -20,7 +20,6 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { getAllKunjungan, deleteKunjungan } from '@/libs/api/kunjunganIbuHamil';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
@@ -28,20 +27,25 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
+import { getAllKunjungan, deleteKunjungan } from '@/libs/api/kunjunganIbuHamil';
+import { rehydrateToken } from '@/libs/axios';
+
 export default function KunjunganPage() {
-  const params = useParams();
-  const { ibu_hamil_id } = params;
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const params = useParams();
+  const { ibu_hamil_id } = params;
 
   // Pagination
   const [page, setPage] = useState(1);
 
-  const dropdownItems = (id) => [
+  const dropdownItems = (kunjunganId) => [
     {
       key: 'edit',
       label: (
-        <Link href={`/ibu-hamil/${ibu_hamil_id}/kunjungan/${id}/ubah-data/`}>
+        <Link
+          href={`/ibu-hamil/${ibu_hamil_id}/kunjungan/${kunjunganId}/ubah-data/`}
+        >
           Ubah
         </Link>
       ),
@@ -52,7 +56,7 @@ export default function KunjunganPage() {
       label: (
         <Popconfirm
           title="Ingin menghapus data?"
-          onConfirm={() => handleDelete(id)}
+          onConfirm={() => handleDelete(kunjunganId)}
           placement="left"
           okText="Ya"
           cancelText="Batal"
@@ -126,9 +130,9 @@ export default function KunjunganPage() {
   const loadData = async () => {
     try {
       setIsLoading(true);
-      const res = await getAllKunjungan(ibu_hamil_id);
-      if (res.data) {
-        const kunjungan = res.data.map((item) => ({
+      const { data } = await getAllKunjungan(ibu_hamil_id);
+      if (data) {
+        const kunjungan = data.map((item) => ({
           ...item,
           usia_kehamilan: `${item.usia_kehamilan} minggu`,
           tanggal_daftar: dayjs(item.tanggal_daftar).format('DD MMMM YYYY'),
@@ -142,6 +146,9 @@ export default function KunjunganPage() {
         content: 'Berhasil memuat data!',
       });
     } catch (err) {
+      if (err.status === 404) {
+        return null;
+      }
       message.open({
         type: 'error',
         content: 'Gagal memuat data!',
@@ -151,15 +158,11 @@ export default function KunjunganPage() {
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const handleDelete = async (id) => {
+  const handleDelete = async (kunjunganId) => {
     try {
-      await deleteKunjungan(id);
+      await deleteKunjungan(kunjunganId);
 
-      const data = getTableData();
+      const data = loadData();
 
       setData(data.data);
 
@@ -168,6 +171,11 @@ export default function KunjunganPage() {
       message.error('Gagal menghapus data! ' + err.message);
     }
   };
+
+  useEffect(() => {
+    rehydrateToken();
+    loadData();
+  }, []);
 
   return (
     <>

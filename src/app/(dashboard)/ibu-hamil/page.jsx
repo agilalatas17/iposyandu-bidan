@@ -28,22 +28,24 @@ dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
 import { getAllIbuHamil, deleteIbuHamil } from '@/libs/api/ibuHamil';
+import { rehydrateToken } from '@/libs/axios';
 
 export default function IbuHamilPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
+
   // Pagination
   const [page, setPage] = useState(1);
 
-  const dropdownItems = (id) => [
+  const dropdownItems = (ibuHamilId) => [
     {
       key: 'edit',
-      label: <Link href={`/ibu-hamil/${id}/ubah-data`}>Ubah</Link>,
+      label: <Link href={`/ibu-hamil/${ibuHamilId}/ubah-data`}>Ubah</Link>,
       icon: <EditOutlinedIcon />,
     },
     {
       key: 'kunjungan',
-      label: <Link href={`/ibu-hamil/${id}/kunjungan`}>Kunjungan</Link>,
+      label: <Link href={`/ibu-hamil/${ibuHamilId}/kunjungan`}>Kunjungan</Link>,
       icon: <EventAvailableIcon />,
     },
     {
@@ -51,7 +53,7 @@ export default function IbuHamilPage() {
       label: (
         <Popconfirm
           title="Ingin menghapus data?"
-          onConfirm={() => handleDelete(id)}
+          onConfirm={() => handleDelete(ibuHamilId)}
           placement="left"
           okText="Ya"
           cancelText="Batal"
@@ -124,9 +126,9 @@ export default function IbuHamilPage() {
 
   const loadData = async () => {
     try {
-      const res = await getAllIbuHamil();
-      if (res) {
-        const ibuHamil = res.map((item) => ({
+      const { data } = await getAllIbuHamil();
+      if (data) {
+        const ibuHamil = data.map((item) => ({
           ...item,
           tanggalDaftar: dayjs(item.tanggalDaftar).format('DD MMM YYYY'),
         }));
@@ -143,10 +145,6 @@ export default function IbuHamilPage() {
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
   const handleDelete = async (id) => {
     try {
       await deleteIbuHamil(id);
@@ -160,6 +158,11 @@ export default function IbuHamilPage() {
       message.error('Gagal menghapus data! ' + err.message);
     }
   };
+
+  useEffect(() => {
+    rehydrateToken();
+    loadData();
+  }, []);
 
   return (
     <>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Row,
   Col,
@@ -33,10 +33,12 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
+import { rehydrateToken } from '@/libs/axios';
 const { Option } = Select;
 
 export default function KunjunganCreatePage() {
   const [formCreateKunjungan] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
   const router = useRouter();
   const { ibu_hamil_id } = params;
@@ -47,7 +49,7 @@ export default function KunjunganCreatePage() {
   const onTanggalDaftarChange = async (date) => {
     if (date) {
       const resIbuHamil = await getIbuHamilById(ibu_hamil_id);
-      const hpht = resIbuHamil.hpht;
+      const hpht = resIbuHamil.data.hpht;
       const tanggalDaftar = date;
       const usiaKehamilan = hitungUsiaKehamilan(hpht, tanggalDaftar);
       const trimester = tentukanTrimester(usiaKehamilan);
@@ -70,7 +72,9 @@ export default function KunjunganCreatePage() {
 
   const onCreateData = async (values) => {
     try {
-      const body = {
+      setIsLoading(true);
+
+      const payload = {
         ibu_hamil_id: ibu_hamil_id,
         tanggal_daftar: values.tanggal_daftar,
         keluhan: values.keluhan,
@@ -83,7 +87,7 @@ export default function KunjunganCreatePage() {
         jumlah_janin: values.jumlah_janin,
       };
 
-      await createKunjunganIbuHamil(body);
+      await createKunjunganIbuHamil(payload);
 
       message.success('Berhasil menambahkan data kunjungan!');
       formCreateKunjungan.resetFields();
@@ -93,8 +97,14 @@ export default function KunjunganCreatePage() {
         type: 'error',
         content: 'Gagal menambahkan data kunjungan!',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    rehydrateToken();
+  }, []);
 
   return (
     <>
@@ -300,7 +310,12 @@ export default function KunjunganCreatePage() {
                 >
                   Batal
                 </Button>
-                <Button type="primary" htmlType="submit" size="large">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  loading={isLoading}
+                >
                   Simpan
                 </Button>
               </Space>
