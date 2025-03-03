@@ -10,12 +10,13 @@ import { useRouter } from 'next/navigation';
 import { loginUser } from '@/libs/api/auth';
 import { getUser } from '@/libs/api/users';
 import dayjs from 'dayjs';
-import { setAuthorization } from '@/libs/axios';
+
+import { setAuthorizationHeaders } from '@/libs/axios';
 
 export default function FormLogin() {
   const [formLoginUser] = Form.useForm();
-  const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   // REGEX
   let phoneNumberRegex = /^(^\+62\s?|^0)(\d{3,4}-?){2}\d{3,4}$/;
@@ -35,21 +36,18 @@ export default function FormLogin() {
         });
       }
 
-      setAuthorization(res.data.token);
+      setAuthorizationHeaders(res.data.token);
 
       const detailUser = await getUser();
       if (detailUser) {
-        localStorage.setItem('token', res.data.token);
-
-        const token2 = localStorage.setItem(
-          'token',
+        localStorage.setItem(
+          'iposyandubidan:access_token',
           JSON.stringify({ ...res.data, noTelp: noTelp })
         );
-        console.log('TOKEN 2 : ', token2);
 
         const expired = dayjs().add(12, 'hour').toDate();
 
-        setCookie('iposyandubidan:user', detailUser.data.nama, {
+        await setCookie('iposyandubidan:user', detailUser.data.nama, {
           httpOnly: true,
           expires: expired,
         });
@@ -59,8 +57,9 @@ export default function FormLogin() {
         type: 'success',
         content: 'Berhasil login!',
       });
+
       formLoginUser.resetFields();
-      push('/dashboard');
+      router.push('/dashboard');
     } catch (err) {
       return message.open({
         type: 'error',
