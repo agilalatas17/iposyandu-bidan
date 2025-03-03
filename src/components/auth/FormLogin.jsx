@@ -47,6 +47,11 @@ export default function FormLogin() {
 
         const expired = dayjs().add(12, 'hour').toDate();
 
+        await setCookie('iposyandubidan:_uuid', res.data.token, {
+          httpOnly: true,
+          expires: expired,
+        });
+
         await setCookie('iposyandubidan:user', detailUser.data.nama, {
           httpOnly: true,
           expires: expired,

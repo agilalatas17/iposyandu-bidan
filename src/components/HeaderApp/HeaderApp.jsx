@@ -10,41 +10,34 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Dropdown, Space, Flex, message } from 'antd';
 import { useRouter } from 'next/navigation';
-import { refreshTokenUser, logoutUser } from '@/libs/api/auth';
 import Title from 'antd/es/typography/Title';
+import { logoutUser } from '@/libs/api/auth';
+
 function HeaderApp() {
   const { push } = useRouter();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const cookie = await getCookie('iposyandubidan:user');
-        console.log('USER COOKIE : ', cookie);
-        if (cookie) {
-          setUser(cookie.value);
-        }
-      } catch (err) {
-        return err.message;
-      } finally {
-        setIsLoading(false);
+  const loadData = async () => {
+    try {
+      const cookie = await getCookie('iposyandubidan:user');
+      if (cookie) {
+        setUser(cookie.value);
       }
-    };
-
-    loadData();
-  }, []);
+    } catch (err) {
+      return err.message;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const onLogout = async () => {
     try {
-      const res = await logoutUser();
+      await logoutUser();
 
-      if (res.status !== 'success') {
-        return message.open({
-          type: 'error',
-          content: 'Logout gagal!',
-        });
-      }
+      await destroyCookie('iposyandubidan:_uuid');
+      await destroyCookie('iposyandubidan:user');
+      localStorage.removeItem('iposyandubidan:access_token');
 
       push('/auth/login');
     } catch (err) {
@@ -62,6 +55,10 @@ function HeaderApp() {
       key: 1,
     },
   ];
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   return (
     <>
