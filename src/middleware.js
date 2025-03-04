@@ -2,15 +2,17 @@ import { NextResponse } from 'next/server';
 
 export function middleware(req) {
   const uuid = req.cookies.get('iposyandubidan:_uuid');
-  const protectedRoutes = ['/dashboard', '/ibu-hamil', '/ibu-bersalin'];
+  const { pathname } = req.nextUrl;
+  // const protectedRoutes = ['/', '/dashboard', '/ibu-hamil', '/ibu-bersalin'];
 
-  if (protectedRoutes.includes(req.nextUrl.pathname) && !uuid) {
+  if (!uuid && pathname.startsWith(pathname)) {
     return NextResponse.redirect(new URL('/auth/login', req.url));
   }
 
-  if (uuid && req.nextUrl.pathname.startsWith('/auth/login')) {
-    return Response.redirect(new URL('/dashboard', req.nextUrl));
+  if (uuid && pathname.startsWith('/auth/login')) {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
   }
+
   return NextResponse.next();
 }
 
