@@ -7,6 +7,8 @@ import { Poppins } from 'next/font/google';
 import Loading from './loading';
 import './globals.css';
 
+import locale from 'antd/locale/id_ID';
+
 const poppins = Poppins({
   weight: ['400', '500', '600', '700', '800'],
   subsets: ['latin'],
@@ -23,12 +25,14 @@ export default function RootLayout({ children }) {
         className={`${poppins.className} antialiased`}
         suppressHydrationWarning
       >
-        <ConfigProvider theme={antdThemeConfig} message={antdMessageConfig}>
+        <ConfigProvider
+          theme={antdThemeConfig}
+          message={antdMessageConfig}
+          locale={locale}
+        >
           <App>
             <AntdRegistry>
-              <Suspense fallback={<Loading />}>
-                <main className="bg-gray-100 h-screen">{children}</main>
-              </Suspense>
+              <main className="bg-gray-100 h-screen">{children}</main>
             </AntdRegistry>
           </App>
         </ConfigProvider>
