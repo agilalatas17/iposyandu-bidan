@@ -53,21 +53,6 @@ function SideMenu() {
         </Link>
       ),
     },
-    {
-      key: 'nifas',
-      label: (
-        <Link
-          href="/ibu-nifas"
-          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-indigo-500 hover:font-medium ${
-            pathname.startsWith('/ibu-nifas')
-              ? '!bg-blue-100 !font-medium !text-blue-600'
-              : ''
-          }`}
-        >
-          Ibu Nifas
-        </Link>
-      ),
-    },
   ];
 
   return (
