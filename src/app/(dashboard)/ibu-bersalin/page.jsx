@@ -51,6 +51,42 @@ export default function IbuBersalinPage() {
       ),
     },
     {
+      key: 'integrasi_program',
+      label: (
+        <Link href={`/ibu-bersalin/${bersalinId}/integrasi-program`}>
+          Integrasi Program
+        </Link>
+      ),
+    },
+    {
+      key: 'keadaan',
+      label: <Link href={`/ibu-bersalin/${bersalinId}/keadaan`}>Keadaan</Link>,
+    },
+    {
+      key: 'pelayanan',
+      label: (
+        <Link href={`/ibu-bersalin/${bersalinId}/pelayanan`}>Pelayanan</Link>
+      ),
+    },
+    {
+      key: 'komplikasi',
+      label: (
+        <Link href={`/ibu-bersalin/${bersalinId}/komplikasi`}>Komplikasi</Link>
+      ),
+    },
+    {
+      key: 'rujukan',
+      label: <Link href={`/ibu-bersalin/${bersalinId}/rujukan`}>Rujukan</Link>,
+    },
+    {
+      key: 'manajemen_aktif_kala_iii',
+      label: (
+        <Link href={`/ibu-bersalin/${bersalinId}/manajemen-aktif-kala-3`}>
+          Manajemen Aktif Kala III
+        </Link>
+      ),
+    },
+    {
       key: 'hapus',
       label: (
         <Popconfirm
