@@ -1,0 +1,9 @@
+export { default as IBU_BERSALIN_DATA } from './ibuBersalinData';
+export { default as PROSES_PERSALINAN_DATA } from './prosesPersalinanData';
+export { default as WAKTU_PERSALINAN_DATA } from './waktuPersalinanData';
+export { default as INTEGRASI_PROGRAM_DATA } from './integrasiProgramData';
+export { default as KEADAAN_DATA } from './keadaanData';
+export { default as PELAYANAN_DATA } from './pelayananData';
+export { default as KOMPLIKASI_DATA } from './komplikasiData';
+export { default as KEGIATAN_RUJUKAN_DATA } from './kegiatanRujukanData';
+export { default as MANAJEMEN_AKTIF_KALA_III_DATA } from './manajemenAktifKala3Data';

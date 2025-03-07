@@ -1,4 +1,4 @@
-export const WAKTU_PERSALINAN_DATA = [
+export default [
   {
     id: 1,
     kala_i_aktif_tanggal: '2025-02-2',

@@ -1,4 +1,4 @@
-export const PROSES_PERSALINAN_DATA = [
+export default [
   {
     id: 1,
     usia_kehamilan: '34',

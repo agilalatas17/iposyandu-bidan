@@ -1,4 +1,4 @@
-export const IBU_BERSALIN_DATA = [
+export default [
   {
     id: 1,
     tgl_daftar: '2023-01-23',
