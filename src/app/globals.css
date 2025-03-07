@@ -9,3 +9,7 @@ li.ant-menu-item {
   border-radius: 0 100px 100px 0 !important;
   overflow: unset !important;
 }
+
+.ant-picker-time-panel {
+  width: 160px !important;
+}
