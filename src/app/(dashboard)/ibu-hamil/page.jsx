@@ -15,9 +15,6 @@ import {
 import Title from 'antd/es/typography/Title';
 import Link from 'next/link';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
@@ -41,12 +38,10 @@ export default function IbuHamilPage() {
     {
       key: 'edit',
       label: <Link href={`/ibu-hamil/${ibuHamilId}/ubah-data`}>Ubah</Link>,
-      icon: <EditOutlinedIcon />,
     },
     {
       key: 'kunjungan',
       label: <Link href={`/ibu-hamil/${ibuHamilId}/kunjungan`}>Kunjungan</Link>,
-      icon: <EventAvailableIcon />,
     },
     {
       key: 'hapus',
@@ -62,7 +57,6 @@ export default function IbuHamilPage() {
           Hapus
         </Popconfirm>
       ),
-      icon: <DeleteOutlineOutlinedIcon />,
     },
   ];
 

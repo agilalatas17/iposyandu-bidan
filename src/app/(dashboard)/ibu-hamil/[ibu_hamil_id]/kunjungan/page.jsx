@@ -16,8 +16,6 @@ import Title from 'antd/es/typography/Title';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
@@ -49,7 +47,6 @@ export default function KunjunganPage() {
           Ubah
         </Link>
       ),
-      icon: <EditOutlinedIcon />,
     },
     {
       key: 'hapus',
@@ -65,7 +62,6 @@ export default function KunjunganPage() {
           Hapus
         </Popconfirm>
       ),
-      icon: <DeleteOutlineOutlinedIcon />,
     },
   ];
 

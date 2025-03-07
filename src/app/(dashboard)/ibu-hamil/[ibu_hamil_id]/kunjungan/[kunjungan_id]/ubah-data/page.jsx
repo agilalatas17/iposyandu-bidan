@@ -265,7 +265,7 @@ export default function KunjunganUpdatePage() {
               wrap
               className="mt-12"
             >
-              <Title level={4} className="w-full ps-2 !mb-4 !font-bold">
+              <Title level={5} className="w-full ps-2 !mb-4 !font-bold">
                 Janin / Bayi
               </Title>
 
