@@ -10,7 +10,7 @@ import { getKunjunganById } from '@/libs/api/kunjunganIbuHamil';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
-import { PROSES_PERSALINAN_DATA } from '@/constants/ibu-bersalin/prosesPersalinanData';
+import { PROSES_PERSALINAN_DATA } from '@/constants/ibu-bersalin';
 dayjs.locale('id');
 
 export default function ProsesPersalinanDetailPage() {

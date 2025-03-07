@@ -11,7 +11,6 @@ import {
   Form,
   Input,
   DatePicker,
-  Select,
   Divider,
   message,
 } from 'antd';
@@ -22,7 +21,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 dayjs.locale('id');
 
-import { IBU_BERSALIN_DATA } from '@/constants/ibu-bersalin/ibuBersalinData';
+import { IBU_BERSALIN_DATA } from '@/constants/ibu-bersalin';
 
 export default function IbuBersalinCreatePage() {
   const [formTambahIbuBersalin] = Form.useForm();
@@ -34,14 +33,6 @@ export default function IbuBersalinCreatePage() {
   const onCreateData = (values) => {
     try {
       setIsLoading(true);
-
-      // const payload = [
-      //   ...data,
-      //   {
-      //     id: countIdNumber,
-      //     ...values,
-      //   },
-      // ];
 
       const payload = {
         id: countIdNumber,

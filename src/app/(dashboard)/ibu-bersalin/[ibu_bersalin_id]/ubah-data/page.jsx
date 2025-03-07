@@ -16,7 +16,7 @@ import {
 } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useParams, useRouter } from 'next/navigation';
-import { IBU_BERSALIN_DATA } from '@/constants/ibu-bersalin/ibuBersalinData';
+import { IBU_BERSALIN_DATA } from '@/constants/ibu-bersalin';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';

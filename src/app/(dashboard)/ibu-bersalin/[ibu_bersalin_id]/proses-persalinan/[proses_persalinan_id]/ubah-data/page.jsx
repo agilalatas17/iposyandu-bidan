@@ -23,7 +23,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 dayjs.locale('id');
 
-import { PROSES_PERSALINAN_DATA } from '@/constants/ibu-bersalin/prosesPersalinanData';
+import { PROSES_PERSALINAN_DATA } from '@/constants/ibu-bersalin';
 
 export default function ProsesPersalinanUpdatePage() {
   const router = useRouter();

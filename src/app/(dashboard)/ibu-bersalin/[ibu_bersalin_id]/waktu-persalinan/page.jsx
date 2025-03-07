@@ -25,7 +25,7 @@ import 'dayjs/locale/id';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
-import { WAKTU_PERSALINAN_DATA } from '@/constants/ibu-bersalin/waktuPersalinanData';
+import { WAKTU_PERSALINAN_DATA } from '@/constants/ibu-bersalin';
 
 export default function WaktuPersalinanPage() {
   const [isLoading, setIsLoading] = useState(true);

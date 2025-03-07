@@ -20,7 +20,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 dayjs.locale('id');
 
-import { IBU_BERSALIN_DATA } from '@/constants/ibu-bersalin/ibuBersalinData';
+import { IBU_BERSALIN_DATA } from '@/constants/ibu-bersalin';
 
 export default function IbuBersalinPage() {
   const [isLoading, setIsLoading] = useState(true);
