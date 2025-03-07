@@ -143,13 +143,24 @@ export default function ProsesPersalinanPage() {
       </Row>
 
       <Row className="pb-4" justify="end">
-        <Button
-          type="primary"
-          icon={<AddOutlinedIcon />}
-          href={`/ibu-bersalin/${ibu_bersalin_id}/proses-persalinan/tambah-data`}
-        >
-          Proses Persalinan
-        </Button>
+        <Space>
+          <Button
+            type="primary"
+            icon={<AddOutlinedIcon />}
+            href={`/ibu-bersalin/${ibu_bersalin_id}/proses-persalinan/tambah-data`}
+          >
+            Proses Persalinan
+          </Button>
+
+          <Button
+            className="border-primary"
+            color="primary"
+            variant="outlined"
+            href="/ibu-bersalin"
+          >
+            Kembali
+          </Button>
+        </Space>
       </Row>
       <Table
         rowKey="id"
