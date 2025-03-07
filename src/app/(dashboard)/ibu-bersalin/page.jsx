@@ -109,6 +109,7 @@ export default function IbuBersalinPage() {
       title: 'No',
       render: (text, record, index) => (page - 1) * 10 + (index + 1),
       width: 30,
+      align: 'center',
     },
     {
       key: '2',
@@ -130,24 +131,23 @@ export default function IbuBersalinPage() {
       key: '5',
       title: 'Aksi',
       width: 80,
+      align: 'center',
       render: (_, record) => (
-        <Space>
-          <Tooltip title="Lainnya" destroyTooltipOnHide={true}>
-            <Dropdown
-              className="px-1.5 py-3 bg-blue-600 rounded hover:bg-blue-600/60"
-              placement="bottomLeft"
-              trigger={['click']}
-              menu={{ items: dropdownItems(record.id) }}
-              arrow
-            >
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                  <MoreHorizIcon className="!text-white" />
-                </Space>
-              </a>
-            </Dropdown>
-          </Tooltip>
-        </Space>
+        <Tooltip title="Lainnya" destroyTooltipOnHide={true}>
+          <Dropdown
+            className="px-1.5 py-3 bg-blue-600 rounded hover:bg-blue-600/60"
+            placement="bottomLeft"
+            trigger={['click']}
+            menu={{ items: dropdownItems(record.id) }}
+            arrow
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <MoreHorizIcon className="!text-white" />
+              </Space>
+            </a>
+          </Dropdown>
+        </Tooltip>
       ),
     },
   ];
