@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Row,
   Col,
@@ -272,7 +272,12 @@ export default function ProsesPersalinanCreatePage() {
 
             <Flex justify="flex-end" className="mt-8">
               <Space size={32}>
-                <Button type="default" href="/ibu-bersalin" size="large" danger>
+                <Button
+                  type="default"
+                  href="/proses-persalinan"
+                  size="large"
+                  danger
+                >
                   Batal
                 </Button>
                 <Button

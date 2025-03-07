@@ -30,7 +30,7 @@ import { WAKTU_PERSALINAN_DATA } from '@/constants/ibu-bersalin/waktuPersalinanD
 export default function WaktuPersalinanPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(WAKTU_PERSALINAN_DATA);
-  const { ibu_bersalin_id, waktu_persalinan_id } = useParams();
+  const { ibu_bersalin_id } = useParams();
 
   // Pagination
   const [page, setPage] = useState(1);
