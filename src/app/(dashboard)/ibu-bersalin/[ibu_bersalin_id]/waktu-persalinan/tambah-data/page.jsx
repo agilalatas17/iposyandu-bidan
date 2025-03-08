@@ -66,10 +66,10 @@ export default function WaktuPersalinanCreatePage() {
         <Divider className="border-2 !m-0" />
       </Row>
 
-      <Row className="max-w-[50%]">
+      <Row>
         <Card
           className=" shadow-primary"
-          style={{ width: '100%' }}
+          style={{ width: '50%' }}
           loading={isLoading}
         >
           <Form
