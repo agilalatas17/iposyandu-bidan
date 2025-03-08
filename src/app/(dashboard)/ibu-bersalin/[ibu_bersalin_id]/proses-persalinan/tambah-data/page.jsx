@@ -274,7 +274,7 @@ export default function ProsesPersalinanCreatePage() {
               <Space size={32}>
                 <Button
                   type="default"
-                  href="/proses-persalinan"
+                  href={`/ibu-bersalin/${ibu_bersalin_id}/proses-persalinan`}
                   size="large"
                   danger
                 >
