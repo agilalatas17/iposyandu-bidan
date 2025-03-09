@@ -17,7 +17,10 @@ import Title from 'antd/es/typography/Title';
 import { useRouter, useParams } from 'next/navigation';
 
 import { PELAYANAN_DATA } from '@/constants/ibu-bersalin';
-import pelayananData from '@/constants/ibu-bersalin/pelayananData';
+import {
+  YA_TIDAK_OPTIONS,
+  MENYUSUI_DINI_OPTIONS,
+} from '@/constants/select-options';
 
 export default function PelayananUpdatePage() {
   const router = useRouter();
@@ -25,32 +28,6 @@ export default function PelayananUpdatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(PELAYANAN_DATA);
   const { ibu_bersalin_id, pelayanan_id } = useParams();
-
-  const YA_TIDAK_OPTIONS = [
-    {
-      label: 'Ya',
-      value: 'ya',
-    },
-    {
-      label: 'Tidak',
-      value: 'tidak',
-    },
-  ];
-
-  const MENYUSUI_DINI_OPTIONS = [
-    {
-      label: '<1 Jam',
-      value: '<1 jam',
-    },
-    {
-      label: '>1 Jam',
-      value: '>1 jam',
-    },
-    {
-      label: 'Tidak Dilakukan',
-      value: 'tidak dilakukan',
-    },
-  ];
 
   useEffect(() => {
     const pelayananData = PELAYANAN_DATA.find(
