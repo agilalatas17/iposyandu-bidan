@@ -13,7 +13,6 @@ import {
 } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Link from 'next/link';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useParams } from 'next/navigation';
