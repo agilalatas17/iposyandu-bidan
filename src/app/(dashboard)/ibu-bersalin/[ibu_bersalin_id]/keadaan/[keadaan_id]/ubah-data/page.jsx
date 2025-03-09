@@ -17,6 +17,7 @@ import Title from 'antd/es/typography/Title';
 import { useRouter, useParams } from 'next/navigation';
 
 import { KEADAAN_DATA } from '@/constants/ibu-bersalin';
+import { KEADAAN_OPTIONS, STATUS_OPTIONS } from '@/constants/select-options';
 
 export default function KeadaanUpdatePage() {
   const router = useRouter();
@@ -24,28 +25,6 @@ export default function KeadaanUpdatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(KEADAAN_DATA);
   const { ibu_bersalin_id, keadaan_id } = useParams();
-
-  const keadaanOptions = [
-    {
-      label: 'Sehat',
-      value: 'sehat',
-    },
-    {
-      label: 'Sakit',
-      value: 'sakit',
-    },
-  ];
-
-  const statusOptions = [
-    {
-      label: 'Hidup',
-      value: 'hidup',
-    },
-    {
-      label: 'Meninggal',
-      value: 'meninggal',
-    },
-  ];
 
   useEffect(() => {
     const keadaanData = data.find((item) => item.id === parseInt(keadaan_id));
@@ -108,12 +87,12 @@ export default function KeadaanUpdatePage() {
 
               <Col span={12}>
                 <Form.Item label="Keadaan" name="keadaan_ibu">
-                  <Select options={keadaanOptions} />
+                  <Select options={KEADAAN_OPTIONS} />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item label="Status" name="status_ibu">
-                  <Select options={statusOptions} />
+                  <Select options={STATUS_OPTIONS} />
                 </Form.Item>
               </Col>
 
@@ -123,12 +102,12 @@ export default function KeadaanUpdatePage() {
 
               <Col span={12}>
                 <Form.Item label="Keadaan" name="keadaan_bayi">
-                  <Select options={keadaanOptions} />
+                  <Select options={KEADAAN_OPTIONS} />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item label="Status" name="status_bayi">
-                  <Select options={statusOptions} />
+                  <Select options={STATUS_OPTIONS} />
                 </Form.Item>
               </Col>
             </Row>

@@ -25,8 +25,11 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 dayjs.locale('id');
 
+import {
+  PENDIDIKAN_TERAKHIR_OPTIONS,
+  GOLONGAN_DARAH_OPTIONSG,
+} from '@/constants/select-options';
 import { rehydrateToken } from '@/libs/axios';
-const { Option } = Select;
 
 export default function IbuHamilUpdatePage() {
   const [formUbahIbuHamil] = Form.useForm();
@@ -224,15 +227,10 @@ export default function IbuHamilUpdatePage() {
                   label="Pendidikan Terakhir"
                   name="pendidikanTerakhir"
                 >
-                  <Select placeholder="Pilih pendidikan terakhir">
-                    <Option value="SD">SD</Option>
-                    <Option value="SMP">SMP</Option>
-                    <Option value="SMA">SMA</Option>
-                    <Option value="D3">D3</Option>
-                    <Option value="S1">S1</Option>
-                    <Option value="S2">S2</Option>
-                    <Option value="S3">S3</Option>
-                  </Select>
+                  <Select
+                    placeholder="Pilih pendidikan terakhir"
+                    options={PENDIDIKAN_TERAKHIR_OPTIONS}
+                  />
                 </Form.Item>
               </Col>
 
@@ -272,12 +270,10 @@ export default function IbuHamilUpdatePage() {
 
               <Col span={5}>
                 <Form.Item label="Golongan Darah" name="golDarah">
-                  <Select placeholder="Pilih golongan darah">
-                    <Option value="A">A</Option>
-                    <Option value="B">B</Option>
-                    <Option value="AB">AB</Option>
-                    <Option value="O">O</Option>
-                  </Select>
+                  <Select
+                    placeholder="Pilih golongan darah"
+                    options={GOLONGAN_DARAH_OPTIONSG}
+                  />
                 </Form.Item>
               </Col>
 

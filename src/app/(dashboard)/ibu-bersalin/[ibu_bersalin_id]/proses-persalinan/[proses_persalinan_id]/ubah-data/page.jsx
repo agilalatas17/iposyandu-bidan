@@ -24,6 +24,12 @@ import 'dayjs/locale/id';
 dayjs.locale('id');
 
 import { PROSES_PERSALINAN_DATA } from '@/constants/ibu-bersalin';
+import {
+  PRESENTASI_PERSALINAN_OPTIONS,
+  CARA_PERSALINAN_OPTIONS,
+  TEMPAT_PERSALINAN_OPTIONS,
+  PENOLONG_PERSALINAN_OPTIONS,
+} from '@/constants/select-options';
 
 export default function ProsesPersalinanUpdatePage() {
   const router = useRouter();
@@ -147,100 +153,19 @@ export default function ProsesPersalinanUpdatePage() {
 
               <Col span={6}>
                 <Form.Item label="Presentasi" name="presentasi">
-                  <Select
-                    options={[
-                      {
-                        label: 'BK',
-                        value: 'BK',
-                      },
-                      {
-                        label: 'PK',
-                        value: 'PK',
-                      },
-                      {
-                        label: 'DH',
-                        value: 'DH',
-                      },
-                      {
-                        label: 'MK',
-                        value: 'MK',
-                      },
-                      {
-                        label: 'BG',
-                        value: 'BG',
-                      },
-                      {
-                        label: 'KK',
-                        value: 'KK',
-                      },
-                      {
-                        label: 'LLO',
-                        value: 'LLO',
-                      },
-                    ]}
-                  />
+                  <Select options={PRESENTASI_PERSALINAN_OPTIONS} />
                 </Form.Item>
               </Col>
 
               <Col span={6}>
                 <Form.Item label="Cara Persalinan" name="cara_persalinan">
-                  <Select
-                    options={[
-                      {
-                        label: 'Normal',
-                        value: 'Normal',
-                      },
-                      {
-                        label: 'Tindakan',
-                        value: 'Tindakan',
-                      },
-                    ]}
-                  />
+                  <Select options={CARA_PERSALINAN_OPTIONS} />
                 </Form.Item>
               </Col>
 
               <Col span={6}>
                 <Form.Item label="Tempat" name="tempat">
-                  <Select
-                    options={[
-                      {
-                        label: 'Rumah',
-                        value: 'Rumah',
-                      },
-                      {
-                        label: 'Poskedes',
-                        value: 'Poskedes',
-                      },
-                      {
-                        label: 'Pustu',
-                        value: 'Pustu',
-                      },
-                      {
-                        label: 'Puskesmas',
-                        value: 'Puskesmas',
-                      },
-                      {
-                        label: 'RB',
-                        value: 'RB',
-                      },
-                      {
-                        label: 'RSIA',
-                        value: 'RSIA',
-                      },
-                      {
-                        label: 'RS',
-                        value: 'RS',
-                      },
-                      {
-                        label: 'RS ODHA',
-                        value: 'RS ODHA',
-                      },
-                      {
-                        label: 'Lain-lain',
-                        value: 'Lain-lain',
-                      },
-                    ]}
-                  />
+                  <Select options={TEMPAT_PERSALINAN_OPTIONS} />
                 </Form.Item>
               </Col>
 
@@ -257,34 +182,7 @@ export default function ProsesPersalinanUpdatePage() {
 
               <Col span={6}>
                 <Form.Item label="Penolong" name="penolong">
-                  <Select
-                    options={[
-                      {
-                        label: 'Keluarga',
-                        value: 'Keluarga',
-                      },
-                      {
-                        label: 'Dukun',
-                        value: 'Dukun',
-                      },
-                      {
-                        label: 'Dokter Umum',
-                        value: 'Dokter Umum',
-                      },
-                      {
-                        label: 'Dokter Spesialis',
-                        value: 'Dokter Spesialis',
-                      },
-                      {
-                        label: 'Lain-lain',
-                        value: 'Lain-lain',
-                      },
-                      {
-                        label: 'Tidak ada',
-                        value: 'Tidak ada',
-                      },
-                    ]}
-                  />
+                  <Select options={PENOLONG_PERSALINAN_OPTIONS} />
                 </Form.Item>
               </Col>
             </Row>

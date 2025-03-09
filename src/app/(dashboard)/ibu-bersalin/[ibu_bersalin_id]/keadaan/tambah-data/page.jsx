@@ -17,6 +17,7 @@ import Title from 'antd/es/typography/Title';
 import { useRouter, useParams } from 'next/navigation';
 
 import { KEADAAN_DATA } from '@/constants/ibu-bersalin';
+import { KEADAAN_OPTIONS, STATUS_OPTIONS } from '@/constants/select-options';
 
 export default function KeadaanCreatePage() {
   const [formTambahKeadaan] = Form.useForm();
@@ -25,28 +26,6 @@ export default function KeadaanCreatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const { ibu_bersalin_id } = useParams();
   const router = useRouter();
-
-  const keadaanOptions = [
-    {
-      label: 'Sehat',
-      value: 'sehat',
-    },
-    {
-      label: 'Sakit',
-      value: 'sakit',
-    },
-  ];
-
-  const statusOptions = [
-    {
-      label: 'Hidup',
-      value: 'hidup',
-    },
-    {
-      label: 'Meninggal',
-      value: 'meninggal',
-    },
-  ];
 
   const onCreateData = (values) => {
     try {
@@ -96,12 +75,12 @@ export default function KeadaanCreatePage() {
 
               <Col span={12}>
                 <Form.Item label="Keadaan" name="keadaan_ibu">
-                  <Select options={keadaanOptions} />
+                  <Select options={KEADAAN_OPTIONS} />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item label="Status" name="status_ibu">
-                  <Select options={statusOptions} />
+                  <Select options={STATUS_OPTIONS} />
                 </Form.Item>
               </Col>
 
@@ -111,12 +90,12 @@ export default function KeadaanCreatePage() {
 
               <Col span={12}>
                 <Form.Item label="Keadaan" name="keadaan_bayi">
-                  <Select options={keadaanOptions} />
+                  <Select options={KEADAAN_OPTIONS} />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item label="Status" name="status_bayi">
-                  <Select options={statusOptions} />
+                  <Select options={STATUS_OPTIONS} />
                 </Form.Item>
               </Col>
             </Row>
