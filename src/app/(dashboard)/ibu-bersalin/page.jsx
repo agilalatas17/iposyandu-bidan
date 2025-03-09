@@ -76,7 +76,11 @@ export default function IbuBersalinPage() {
     },
     {
       key: 'rujukan',
-      label: <Link href={`/ibu-bersalin/${bersalinId}/rujukan`}>Rujukan</Link>,
+      label: (
+        <Link href={`/ibu-bersalin/${bersalinId}/kegiatan-rujukan`}>
+          Rujukan
+        </Link>
+      ),
     },
     {
       key: 'manajemen_aktif_kala_iii',
