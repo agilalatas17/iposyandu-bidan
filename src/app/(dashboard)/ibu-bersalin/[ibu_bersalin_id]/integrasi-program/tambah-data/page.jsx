@@ -17,6 +17,11 @@ import Title from 'antd/es/typography/Title';
 import { useRouter, useParams } from 'next/navigation';
 
 import { INTEGRASI_PROGRAM_DATA } from '@/constants/ibu-bersalin';
+import {
+  PROFILAKSIS_OPTIONS,
+  TUBER_KULOSIS_OPTIONS,
+  MALARIA_OPTIONS,
+} from '@/constants/select-options';
 
 export default function IntegrasiProgramCreatePage() {
   const [formTambahIntegrasiProgram] = Form.useForm();
@@ -25,55 +30,6 @@ export default function IntegrasiProgramCreatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const { ibu_bersalin_id } = useParams();
   const router = useRouter();
-
-  const profilaksisOptions = [
-    {
-      label: 'ZDV',
-      value: 'ZDV',
-    },
-    {
-      label: 'NVP',
-      value: 'NVP',
-    },
-    {
-      label: '3TC',
-      value: '3TC',
-    },
-  ];
-
-  const malariaOptions = [
-    {
-      label: 'ART',
-      value: 'ART',
-    },
-    {
-      label: 'AMO',
-      value: 'AMO',
-    },
-    {
-      label: 'Kin',
-      value: 'Kin',
-    },
-  ];
-
-  const tuberkulosisOptions = [
-    {
-      label: 'R',
-      value: 'R',
-    },
-    {
-      label: 'H',
-      value: 'H',
-    },
-    {
-      label: 'Z',
-      value: 'Z',
-    },
-    {
-      label: 'E',
-      value: 'E',
-    },
-  ];
 
   const onCreateData = (values) => {
     try {
