@@ -1,28 +1,65 @@
-import { notification } from 'antd';
+import { message } from 'antd';
+import instanceAxios, { setAuthorizationHeaders } from '.';
+import { refreshTokenUser } from '../api/auth';
+import { setCookie } from '../cookies';
 
 export default function errorHandler(error) {
   if (error) {
-    let message;
-
+    let textMessage;
     if (error.response) {
-      if (error.response.status === 500) {
-        message = 'Internal server error.';
+      const originalRequest = error.config;
+      const { response } = error;
+
+      if (response.status === 500) {
+        textMessage = 'Internal server error.';
+      } else if (response.status === 403 && !originalRequest._retry) {
+        originalRequest._retry = true;
+        const token = localStorage.getItem('iposyandubidan:access_token');
+        const session = token ? JSON.parse(token) : null;
+
+        return refreshTokenUser({
+          refreshToken: session.refreshToken,
+          noTelp: session.noTelp,
+        }).then((res) => {
+          if (res.data) {
+            setAuthorizationHeaders(res.data.token);
+            localStorage.setItem(
+              'iposyandubidan:access_token',
+              JSON.stringify({
+                ...session,
+                token: res.data.token,
+              })
+            );
+
+            originalRequest.headers.authorization = res.data.token;
+
+            return instanceAxios(originalRequest);
+          } else {
+            window.location.href = '/auth/login';
+            localStorage.removeItem('iposyandubidan:access_token');
+            setCookie('iposyandubidan:user', '');
+          }
+        });
       } else {
-        message = error.response.data.message;
+        textMessage = response.data?.message;
       }
 
-      notification.error({
-        message: 'Error',
-        description: message,
-      });
+      if (response.status === 404) {
+        message.open({
+          type: 'info',
+          content: textMessage,
+        });
+      } else {
+        message.open({
+          type: 'error',
+          content: textMessage,
+        });
+      }
 
       return Promise.reject(error);
     }
 
-    notification.error({
-      message: 'Error',
-      description: 'Network or unexpected error occurred.',
-    });
+    message.error('Network or unexpected error occurred.');
 
     return Promise.reject(error);
   }

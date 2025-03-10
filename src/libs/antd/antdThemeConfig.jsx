@@ -15,6 +15,7 @@ export const antdThemeConfig = {
 
     Table: {
       headerBg: '#E1E5EC',
+      borderColor: 'rgb(209, 212, 216, 0.8)',
     },
   },
 };

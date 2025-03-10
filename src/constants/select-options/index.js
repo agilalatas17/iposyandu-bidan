@@ -1,0 +1,13 @@
+export { default as YA_TIDAK_OPTIONS } from './yaTidakOptions';
+export { default as MENYUSUI_DINI_OPTIONS } from './menyusuiDiniOptions';
+export { default as PROFILAKSIS_OPTIONS } from './profilasksisOptions';
+export { default as MALARIA_OPTIONS } from './malariaOptions';
+export { default as TUBER_KULOSIS_OPTIONS } from './tuberkulosisOptions';
+export { default as PRESENTASI_PERSALINAN_OPTIONS } from './presentasiPersalinanOptions';
+export { default as CARA_PERSALINAN_OPTIONS } from './caraPersalinanOptions';
+export { default as TEMPAT_PERSALINAN_OPTIONS } from './tempatPersalinanOptions';
+export { default as PENOLONG_PERSALINAN_OPTIONS } from './penolongPersalinanOptions';
+export { default as KEADAAN_OPTIONS } from './keadaanOptions';
+export { default as STATUS_OPTIONS } from './statusOptions';
+export { default as PENDIDIKAN_TERAKHIR_OPTIONS } from './pendidikanTerakhirOptions';
+export { default as GOLONGAN_DARAH_OPTIONS } from './golonganDarahOptions';

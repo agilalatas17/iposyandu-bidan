@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+li.ant-menu-item {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+  border-radius: 0 100px 100px 0 !important;
+  overflow: unset !important;
+}
+
+.ant-picker-time-panel {
+  width: 160px !important;
+}

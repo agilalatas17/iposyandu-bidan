@@ -1,76 +1,31 @@
-const baseUrl = process.env.NEXT_PUBLIC_URL_API;
+import instanceAxios from '../axios';
 
 export const countIbuHamil = async () => {
-  const res = await fetch(`${baseUrl}/api/ibu-hamil/jumlah-data`, {
-    cache: 'no-store',
-  });
-  const jumlahIbuHamil = res.json();
-
-  return jumlahIbuHamil;
+  const res = await instanceAxios.get('/api/ibu-hamil/jumlah-data');
+  return res;
 };
 
 export const getAllIbuHamil = async () => {
-  const res = await fetch(`${baseUrl}/api/ibu-hamil`);
-
-  const items = await res.json();
-
-  return items.data;
+  const res = await instanceAxios.get('/api/ibu-hamil');
+  return res;
 };
 
-export const getIbuHamilById = async (id) => {
-  const res = await fetch(`${baseUrl}/api/ibu-hamil/${id}`);
-
-  const items = await res.json();
-
-  return items.data;
+export const getIbuHamilById = async (ibuHamilId) => {
+  const res = await instanceAxios.get(`/api/ibu-hamil/${ibuHamilId}`);
+  return res;
 };
 
 export const createIbuHamil = async (body) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil/create`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-    const ibuHamil = await res.json();
-
-    return ibuHamil;
-  } catch (err) {
-    return err.message;
-  }
+  const res = await instanceAxios.post(`/api/ibu-hamil/create`, body);
+  return res;
 };
 
-export const updateIbuHamil = async (id, body) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-
-    const ibuHamil = res.json();
-    return ibuHamil;
-  } catch (err) {
-    return err.message;
-  }
+export const updateIbuHamil = async (ibuHamilId, body) => {
+  const res = await instanceAxios.put(`/api/ibu-hamil/${ibuHamilId}`, body);
+  return res;
 };
 
-export const deleteIbuHamil = async (id) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/ibu-hamil/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const ibuHamil = res.json();
-    return ibuHamil;
-  } catch (err) {
-    return err.message;
-  }
+export const deleteIbuHamil = async (ibuHamilId) => {
+  const res = await instanceAxios.delete(`/api/ibu-hamil/${ibuHamilId}`);
+  return res;
 };

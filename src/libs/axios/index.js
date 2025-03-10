@@ -1,16 +1,20 @@
 import axios from 'axios';
 import errorHandler from './errorHandler';
-const { NEXT_PUBLIC_URL_API } = process.env;
+const BASE_URL_API = process.env.NEXT_PUBLIC_URL_API;
 
 const instanceAxios = axios.create({
-  baseURL: NEXT_PUBLIC_URL_API,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: BASE_URL_API,
 });
 
-// instanceAxios.interceptors.response.use((response) => {
-//   response, errorHandler;
-// });
+instanceAxios.interceptors.response.use(
+  (response) => {
+    return response.data;
+  },
+  (error) => {
+    return errorHandler(error);
+  }
+);
 
+export { default as setAuthorizationHeaders } from './setAuthorizationHeaders';
+export { default as rehydrateToken } from './rehydrateToken';
 export default instanceAxios;
