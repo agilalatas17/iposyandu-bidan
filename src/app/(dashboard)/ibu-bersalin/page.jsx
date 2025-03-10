@@ -85,7 +85,7 @@ export default function IbuBersalinPage() {
     {
       key: 'manajemen_aktif_kala_iii',
       label: (
-        <Link href={`/ibu-bersalin/${bersalinId}/manajemen-aktif-kala-3`}>
+        <Link href={`/ibu-bersalin/${bersalinId}/manajemen-aktif-kala-tiga`}>
           Manajemen Aktif Kala III
         </Link>
       ),
