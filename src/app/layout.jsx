@@ -1,10 +1,8 @@
-import { Suspense } from 'react';
 import { ConfigProvider, App } from 'antd';
 import { antdThemeConfig } from '@/libs/antd/antdThemeConfig';
 import { antdMessageConfig } from '@/libs/antd/antdMessageConfig';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Poppins } from 'next/font/google';
-import Loading from './loading';
 import './globals.css';
 
 import locale from 'antd/locale/id_ID';
