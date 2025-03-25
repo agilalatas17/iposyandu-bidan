@@ -32,7 +32,7 @@ export default function FormLogin() {
       if (res.status === 'error') {
         return message.open({
           type: 'error',
-          content: res.message || 'Gagal login!',
+          content: 'Gagal login!',
         });
       }
 
@@ -68,7 +68,7 @@ export default function FormLogin() {
     } catch (err) {
       return message.open({
         type: 'error',
-        content: err.message || 'Terjadi kesalahan!',
+        content: 'Terjadi kesalahan!',
       });
     } finally {
       setIsLoading(false);

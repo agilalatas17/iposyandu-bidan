@@ -75,17 +75,17 @@ export default function IntegrasiProgramCreatePage() {
             <Row justify="space-between" gutter={[32, 40]}>
               <Col span={8}>
                 <Form.Item label="ARV Profilaksis" name="arv_profilaksis">
-                  <Select options={profilaksisOptions} />
+                  <Select options={PROFILAKSIS_OPTIONS} />
                 </Form.Item>
               </Col>
               <Col span={8}>
                 <Form.Item label="Obat Anti Malaria" name="obat_anti_malaria">
-                  <Select options={malariaOptions} />
+                  <Select options={MALARIA_OPTIONS} />
                 </Form.Item>
               </Col>
               <Col span={8}>
                 <Form.Item label="Obat Anti Tb" name="obat_anti_tb">
-                  <Select options={tuberkulosisOptions} />
+                  <Select options={TUBER_KULOSIS_OPTIONS} />
                 </Form.Item>
               </Col>
             </Row>
@@ -94,7 +94,7 @@ export default function IntegrasiProgramCreatePage() {
               <Space size={32}>
                 <Button
                   type="default"
-                  href="/integrasi-program"
+                  href={`/ibu-bersalin/${ibu_bersalin_id}/integrasi-program`}
                   size="large"
                   danger
                 >

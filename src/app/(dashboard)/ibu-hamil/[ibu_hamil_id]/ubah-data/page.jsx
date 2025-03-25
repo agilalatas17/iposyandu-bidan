@@ -27,7 +27,7 @@ dayjs.locale('id');
 
 import {
   PENDIDIKAN_TERAKHIR_OPTIONS,
-  GOLONGAN_DARAH_OPTIONSG,
+  GOLONGAN_DARAH_OPTIONS,
 } from '@/constants/select-options';
 import { rehydrateToken } from '@/libs/axios';
 
@@ -272,7 +272,7 @@ export default function IbuHamilUpdatePage() {
                 <Form.Item label="Golongan Darah" name="golDarah">
                   <Select
                     placeholder="Pilih golongan darah"
-                    options={GOLONGAN_DARAH_OPTIONSG}
+                    options={GOLONGAN_DARAH_OPTIONS}
                   />
                 </Form.Item>
               </Col>
