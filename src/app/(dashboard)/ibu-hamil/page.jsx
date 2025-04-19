@@ -170,6 +170,7 @@ export default function IbuHamilPage() {
           type="primary"
           icon={<AddOutlinedIcon />}
           href="/ibu-hamil/tambah-data"
+          loading={isLoading}
         >
           Ibu Hamil
         </Button>
