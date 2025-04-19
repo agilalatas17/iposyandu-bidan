@@ -40,8 +40,6 @@ export default function IbuBersalinCreatePage() {
         ...values,
       };
 
-      console.log('CEK PAYLOAD : ', payload);
-
       data.push(payload);
       // setData(payload);
       setCountIdNumber(countIdNumber + 1);

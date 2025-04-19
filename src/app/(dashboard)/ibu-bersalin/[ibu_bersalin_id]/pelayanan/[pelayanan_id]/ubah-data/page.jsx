@@ -34,8 +34,6 @@ export default function PelayananUpdatePage() {
       (item) => item.id === parseInt(pelayanan_id)
     );
 
-    console.log('CEK PELAYANAN DATA ID : ', pelayananData);
-
     if (pelayananData) {
       setData(pelayananData);
       formUbahPelayanan.setFieldsValue({

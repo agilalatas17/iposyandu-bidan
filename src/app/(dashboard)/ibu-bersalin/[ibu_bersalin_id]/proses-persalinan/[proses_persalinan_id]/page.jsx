@@ -22,7 +22,6 @@ export default function ProsesPersalinanDetailPage() {
     const detailData = data.find(
       (item) => item.id === parseInt(proses_persalinan_id)
     );
-    console.log('CEK DETAIL DATA : ', detailData);
     if (detailData) {
       setData(detailData);
     }

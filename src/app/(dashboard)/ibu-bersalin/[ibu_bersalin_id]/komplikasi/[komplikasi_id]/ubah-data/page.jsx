@@ -32,8 +32,6 @@ export default function KomplikasiCreatePage() {
       (item) => item.id === parseInt(komplikasi_id)
     );
 
-    console.log('CEK PELAYANAN DATA ID : ', komplikasiData);
-
     if (komplikasiData) {
       setData(komplikasiData);
       formUbahKomplikasi.setFieldsValue({
