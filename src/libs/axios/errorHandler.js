@@ -49,11 +49,12 @@ export default function errorHandler(error) {
           type: 'info',
           content: textMessage,
         });
+      } else {
+        message.open({
+          type: 'error',
+          content: textMessage,
+        });
       }
-      message.open({
-        type: 'error',
-        content: textMessage,
-      });
 
       return Promise.reject(error);
     }
