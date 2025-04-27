@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 export function middleware(req) {
   const uuid = req.cookies.get('iposyandubidan:_uuid');
   const { pathname } = req.nextUrl;
-  // const protectedRoutes = ['/', '/dashboard', '/ibu-hamil', '/ibu-bersalin'];
 
   if (!uuid && pathname.startsWith(pathname)) {
     return NextResponse.redirect(new URL('/auth/login', req.url));
