@@ -1,6 +1,6 @@
 export const antdThemeConfig = {
   token: {
-    colorPrimary: '#155DFC',
+    colorPrimary: '#9A4775',
     fontFamily: 'Poppins',
     fontSize: 14,
     colorBgContainerDisabled: '#fff',

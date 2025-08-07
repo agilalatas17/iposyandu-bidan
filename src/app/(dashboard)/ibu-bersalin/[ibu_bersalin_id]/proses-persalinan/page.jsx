@@ -180,7 +180,7 @@ export default function ProsesPersalinanPage() {
           },
         }}
         rowClassName={(record, index) => {
-          return index % 2 === 1 ? 'bg-[#EFF6FF]' : '';
+          return index % 2 === 1 ? 'bg-primary/10' : '';
         }}
         size="middle"
         bordered

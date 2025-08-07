@@ -13,9 +13,9 @@ function SideMenu() {
       label: (
         <Link
           href="/dashboard"
-          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-indigo-500 hover:font-medium ${
+          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-primary/80 hover:font-medium ${
             pathname.startsWith('/dashboard')
-              ? '!bg-blue-100 !font-medium !text-blue-600'
+              ? '!bg-primary !font-medium !text-white'
               : ''
           }`}
         >
@@ -28,9 +28,9 @@ function SideMenu() {
       label: (
         <Link
           href="/ibu-hamil"
-          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-indigo-500 hover:font-medium ${
+          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-primary/80 hover:font-medium ${
             pathname.startsWith('/ibu-hamil')
-              ? '!bg-blue-100 !font-medium !text-blue-600'
+              ? '!bg-primary !font-medium !text-white'
               : ''
           }`}
         >
@@ -43,9 +43,9 @@ function SideMenu() {
       label: (
         <Link
           href="/ibu-bersalin"
-          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-indigo-500 hover:font-medium ${
+          className={`block w-[calc(100% - 8px)] rounded-e-full hover:!rounded-e-full m-1 px-4 hover:!text-primary/80 hover:font-medium ${
             pathname.startsWith('/ibu-bersalin')
-              ? '!bg-blue-100 !font-medium !text-blue-600'
+              ? '!bg-primary !font-medium !text-white'
               : ''
           }`}
         >
